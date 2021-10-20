@@ -1,0 +1,24 @@
+
+CC = CC
+CFLAGS = -O3 -Wall
+#CFLAGS += -D__MPI__
+
+INCLUDE += -I${GSL_DIR}/include
+INCLUDE += -I/work/sugiymnn/WORK/cosmo/hitomi_measurement
+
+LIB += -L${FFTW_DIR}
+LIB += -L${GSL_DIR}/lib
+LIB += -lm -lfftw3 -lgsl -lgslcblas
+
+PROGRAM = a.out
+
+$(PROGRAM):main.cpp
+	$(CC) $(CFLAGS) $(INCLUDE) -o $@ $< $(CLIBS) $(LIB) 
+
+clean:  
+	rm -f $(PROGRAM) core
+
+distclean:  
+	rm -f $(PROGRAM) *~
+
+

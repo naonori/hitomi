@@ -1,0 +1,659 @@
+#ifndef __particleGadget__
+#define __particleGadget__
+
+#ifndef __parameter__
+#include "parameter.hpp"
+#endif
+
+class ParticleGadgetClass {
+private:
+public:
+    /* Particle information */
+	struct ParticleInfo {
+		double pos[3];
+		double vel[3];
+	} * P;
+
+    /* The total number of particles */
+    long long n_tot;
+    /* The maximum value of particle positions */
+    double pos_max[3];
+    /* The minimum value of particle positions */
+    double pos_min[3];
+
+    /* Cosmological parameters */
+	double    redshift;
+	double    scaleFactor;
+	int       numFiles;
+	double    boxsize;
+	double    omegaM0;
+	double    omegaLambda;
+	double    hubble; 
+	double    mass;
+
+    /* header */
+	struct io_header {
+        unsigned int npart[6];
+        double   mass[6];
+        double   time;
+        double   redshift;
+        int      flag_sfr;
+        int      flag_feedback;
+        unsigned int npartTotal[6];
+        int      flag_cooling;
+        int      num_files;
+        double   BoxSize;
+        double   Omega0;
+        double   OmegaLambda;
+        double   HubbleParam; 
+        char     fill[256- 6*4- 6*8- 2*8- 2*4- 6*4- 2*4 - 4*8];  /* fills to 256 Bytes */
+
+    } header;
+
+	ParticleInfo & operator [] (long long id) { return this->P[id]; }
+
+	ParticleGadgetClass() {
+		/* Initialize */
+		this->P = NULL;
+		this->n_tot = 0;
+		this->pos_max[0] = 0.0; this->pos_min[0] = 0.0;
+		this->pos_max[1] = 0.0; this->pos_min[1] = 0.0;
+		this->pos_max[2] = 0.0; this->pos_min[2] = 0.0;
+
+		this->redshift = 0.0;
+		this->scaleFactor = 0.0;
+		this->numFiles = 0;
+		this->boxsize = 0.0;
+		this->omegaM0 = 0.0;
+		this->omegaLambda = 0.0;
+		this->hubble = 0.0; 
+		this->mass = 0.0;
+
+	}
+
+	int initializeParticle(const long long num) {
+
+        /*************************************************************/
+        /* This function allocates memory for the particle information 
+         * and then initializes the particle information.*/
+        /*************************************************************/
+
+        /* If the total number of particles is less than or equal to zero, 
+         * the function returns an error.*/
+		if(num <= 0) { 
+            if(ThisTask == 0) {printf("The number of particles should be > 0\n");}
+            return -1; 
+        }
+
+		/* Insert the total number of particles in this->n_tot */
+		this->n_tot = num;
+
+		/* Allocate memory for particles */
+ 		delete [] this->P; this->P = NULL;
+		this->P = new ParticleInfo[this->n_tot];
+        byte += double( sizeof(ParticleInfo) * (this->n_tot) / 1024.0 / 1024.0 / 1024.0);
+        if(ThisTask == 0) { printf("Memory = %f Gb\n", byte); }
+
+		/* Initialize the particle information */
+		for(long long i = 0; i < this->n_tot; i++) {
+			this->P[i].pos[0] = 0.0;
+			this->P[i].pos[1] = 0.0;
+			this->P[i].pos[2] = 0.0;
+			this->P[i].vel[0] = 0.0;
+			this->P[i].vel[1] = 0.0;
+			this->P[i].vel[2] = 0.0;
+		}
+
+		return 0;
+	}
+
+	~ParticleGadgetClass() {
+		this->finalizeParticle();
+	}
+	
+	void finalizeParticle() {
+
+        /***************************************************/
+        /* This function finalizes the particle information.*/
+        /***************************************************/
+
+        if(this->P != NULL) {
+			delete [] this->P; this->P = NULL; 
+            byte -= double( sizeof(ParticleInfo) * (this->n_tot) / 1024.0 / 1024.0 / 1024.0);
+            if(ThisTask == 0) { printf("Memory = %f Gb\n", byte); }
+		}
+
+	}
+
+	int readParametersFromGagdetSnapshot(std::string & snapshotFileName) {
+
+        /***************************************************************************/
+        /* This function reads the cosmological parameters from the simulation data.*/
+        /***************************************************************************/
+
+		FILE *fp;
+		char buf[256];
+		sprintf(buf, "%s.0", snapshotFileName.c_str());
+		if(!(fp = fopen(buf,"rb"))){
+			if(ThisTask == 0) { printf("can not open %s\n",buf);}
+			return -1;
+		}
+
+		int dummy = sizeof(header);
+		fread(&dummy, sizeof(dummy),1,fp);
+		fread(&header, sizeof(header),1,fp);
+		fread(&dummy, sizeof(dummy),1,fp);
+		fclose(fp);
+
+		long long n_tot_sum = 0;
+		for(int n = 0; n < 6; n++){
+			n_tot_sum += header.npartTotal[n];
+		}
+
+		this->n_tot = n_tot_sum;
+		this->boxsize = header.BoxSize;
+		this->omegaM0 = header.Omega0;
+		this->omegaLambda = header.OmegaLambda;
+		this->hubble = header.HubbleParam;
+		this->redshift = header.redshift;
+		this->scaleFactor = header.time;
+		this->numFiles = header.num_files;
+
+		double mass_sum = 0.0;
+		for(int i = 0; i < 6; i++) {
+			mass_sum += this->header.mass[i];
+		}
+		this->mass = mass_sum;
+
+		return 0;
+
+	}
+
+	int readParametersFromRockstar(std::string & fname_in) {
+
+        /******************************************************************************************/
+        /* This function reads the cosmological parameters from output files generated by Rockstar.*/
+        /******************************************************************************************/
+
+        std::ifstream fin(fname_in.c_str());
+        if(!fin) {
+            if(ThisTask == 0) {printf("Cannot open '%s'\n", fname_in.c_str());}
+            return -1;
+        }
+
+        std::string str = "None";
+        unsigned long c = std::string::npos;
+        char dummy[256] = "None";
+
+        while(getline(fin, str)){
+
+            if(str.find("Om") != c)  { sscanf(str.data(), "%s %s %lg", dummy, dummy, &this->omegaM0);}
+            if(str.find("Ol") != c)  { sscanf(str.data(), "%s %s %s %s %s %lg", dummy, dummy, dummy, dummy, dummy, &this->omegaLambda);}
+            if(str.find("h") != c)   { sscanf(str.data(), "%s %s %s %s %s %s %s %s %lg", dummy, dummy, dummy, dummy, dummy, dummy, dummy, dummy, &this->hubble);}
+            if(str.find("Box size") != c) { sscanf(str.data(), "%s %s %lg", dummy, dummy, &this->boxsize);}
+            if(str.find("Particle mass") != c) { sscanf(str.data(), "%s %s %lg", dummy, dummy, &this->mass);}
+            if(str.find("#a =") != c) { sscanf(str.data(), "%s %s %lg", dummy, dummy, &this->scaleFactor);}
+
+        }
+
+        if(this->scaleFactor <= 0.0) {
+            return -1;
+        }
+
+        this->redshift = 1.0/this->scaleFactor - 1.0;
+
+        this->mass /= 1.0e10;
+
+		return 0;
+
+	}
+
+	int readParticlesFromGagdetSnapshot(std::string & snapshotFileName) {
+
+        /****************************************************************************************/
+        /* Reads the data of dark matter particles generated by Gadget from the snapshot files. */
+        /****************************************************************************************/
+
+        /* Reads the cosmological parameters */
+		if( this->readParametersFromGagdetSnapshot(snapshotFileName) ) { 
+            if(ThisTask ==0 ){ printf("'this->readParameters(snapshotFileName)' fails.\n"); }
+            return -1;
+        }
+
+        /* Initialize the particle information */
+		if ( this->initializeParticle(this->n_tot) ) { 
+            if(ThisTask ==0 ){printf("'this->initializeParticle(this->n_tot)' fails.\n"); }
+            return -1;
+        }
+
+		/* Read the particle data */
+		long long pc = 0;
+        long long pc_new = 0;
+		for(int i = 0; i < this->numFiles; i++, pc = pc_new) {
+			FILE *fp;
+			char buf[256];
+			sprintf(buf,"%s.%d", snapshotFileName.c_str(), i);
+			if(!(fp = fopen(buf,"rb"))) {
+				if(ThisTask == 0) { printf("can not open %s\n",buf);}
+				return -1;
+			}
+			
+			int dummy = sizeof(header);
+			fread(&dummy,sizeof(dummy),1,fp);
+			fread(&header,sizeof(header),1,fp);
+			fread(&dummy,sizeof(dummy),1,fp);
+	
+			long long NumPart = 0;
+			for(int k=0; k< 6; k++){
+				NumPart += header.npart[k];
+			}
+			
+			float *block = new float[3*NumPart];
+			long long *blockid = new long long[NumPart];
+			dummy = sizeof(float) * 3 * NumPart;
+			fread(&dummy,sizeof(dummy),1,fp);
+			fread(block,sizeof(float), 3*NumPart, fp);
+			fread(&dummy,sizeof(dummy),1,fp);
+			pc_new = pc;
+			for(long long n = 0; n < NumPart; n++) {
+			    	for(int k = 0; k < 3; k++) {
+				      P[pc_new].pos[k] =(double) block[3 * n + k];
+				}
+				pc_new++;
+			}
+	
+			fread(&dummy,sizeof(dummy),1,fp);
+			fread(block,sizeof(float), 3*NumPart, fp);
+			fread(&dummy,sizeof(dummy),1,fp);
+			pc_new = pc;
+			for(long long n = 0; n < NumPart; n++) {
+			    for(int k = 0; k < 3; k++) {
+				      P[pc_new].vel[k] = (double) block[3 * n + k] * sqrt(scaleFactor);
+				}
+				pc_new++;
+			}
+	
+			dummy = sizeof(long long) * NumPart;
+			fread(&dummy,sizeof(dummy),1,fp);
+			fread(blockid,sizeof(long long), NumPart, fp);
+			fread(&dummy,sizeof(dummy),1,fp);
+			pc_new = pc;
+			for(long long n = 0; n < NumPart; n++) {
+				pc_new++;
+			}
+
+			fclose(fp);
+		}
+			
+        if( pc_new != this->n_tot) {
+			if(ThisTask == 0) { printf("readParticlesFromSnapshotOfGadget(std::string & snapshotFileName) fails.\n");}
+            return -1;
+		}
+
+        if(this->calcMinAndMax()) {
+            return -1;
+        }
+
+		return 0;
+	}
+
+	int readParticlesFromRockstar(std::string & fname_in, double log10_Mmin, double log10_Mmax) {
+
+        /*******************************************************************************************/
+        /* This function reads the dark halo data generated by Rockstar. 
+         * log10Min and log10Max determine the lower and upper limits of the halo mass to be read. */
+        /*******************************************************************************************/
+
+        /* Reads the cosmological parameters */
+		if( this->readParametersFromRockstar(fname_in) ) { 
+            if(ThisTask ==0 ){ printf("'this->readParametersFromRockstar(fname_in)' fails.\n"); }
+            return -1;
+        }
+
+		std::ifstream fin;
+
+		/* Count the number of particles */
+		int num_lines = 0; 
+		
+		fin.open(fname_in.c_str(), std::ios::in);
+		if( fin.fail() ) {
+			if(ThisTask == 0) { printf("can not open file '%s'...\n", fname_in.c_str()); }
+			fin.close();
+			return -1;
+		}
+
+        double x, y, z, vx, vy, vz, mass, dummy;
+    	int ID, PID;
+		std::string str;
+		while(getline(fin, str)) {
+			if( sscanf(str.c_str(), "%d  %lf %lf %lf %lf %lf %lf %lf %lf %lf\
+					         %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\
+					         %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\
+						 %lf %lf %lf %d", 
+						 &ID,    &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &x,     &y,
+						 &z,     &vx,    &vy,    &vz,    &dummy, &dummy, &dummy, &dummy, &dummy, &mass,
+						 &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy,
+						 &dummy, &dummy, &dummy, &PID
+						 ) != 34 ) {
+
+				continue;
+			}
+
+			if( (log10_Mmin < log10(mass)) && (log10(mass) < log10_Mmax) ) {
+				num_lines++;
+			}
+		}
+		fin.close();
+		/*****************************************/
+
+		/* Initialize the particle data */
+		this->initializeParticle(num_lines);
+
+		/*****************************************/
+		/* Read particle information */
+		num_lines = 0;
+		fin.open(fname_in.c_str(), std::ios::in);
+		while(getline(fin, str)) {
+    		double x, y, z, vx, vy, vz, mass, dummy;
+    		int ID, PID;
+			if( sscanf(str.c_str(), "%d  %lf %lf %lf %lf %lf %lf %lf %lf %lf\
+					         %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\
+					         %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\
+					         %lf %lf %lf %d", 
+						 &ID,    &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &x,     &y,
+						 &z,     &vx,    &vy,    &vz,    &dummy, &dummy, &dummy, &dummy, &dummy, &mass,
+						 &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy,
+						 &dummy, &dummy, &dummy, &PID
+						 ) != 34 ) {
+				continue;
+			}
+			if( (log10_Mmin < log10(mass)) && (log10(mass) < log10_Mmax) ) {
+				this->P[num_lines].pos[0] = x;
+				this->P[num_lines].pos[1] = y;
+				this->P[num_lines].pos[2] = z;
+				this->P[num_lines].vel[0] = vx;
+				this->P[num_lines].vel[1] = vy;
+				this->P[num_lines].vel[2] = vz;
+				num_lines++;
+			}
+		}
+		fin.close();
+		/*****************************************/
+
+        if(this->calcMinAndMax()) {
+            return -1;
+        }
+
+		return 0;
+	}
+
+	int readRandomParticles(std::string & fname_in) {
+
+        /************************************************************************************************************/
+        /* This function reads the random particle data from. 
+         * In the case of simulation data with periodic boundary conditions, random particles are usually not needed.
+         * However, they are needed when reconstructing the particles. */
+        /************************************************************************************************************/
+
+		std::ifstream fin;
+
+		/*****************************************/
+		/* Count the number of particles */
+		int num_lines = 0; 
+		
+		fin.open(fname_in.c_str(), std::ios::in);
+		if( fin.fail() ) {
+			if(ThisTask == 0) {printf("can not open file '%s'...\n", fname_in.c_str());}
+			fin.close();
+			return -1;
+		}
+
+		std::string str;
+		double x, y, z;
+		while(getline(fin, str)) {
+			if( sscanf(str.c_str(), "%lf %lf %lf",  &x, &y, &z) != 3 ) {
+				continue;
+			}
+
+			num_lines++;
+		
+		}
+		fin.close();
+		/*****************************************/
+
+		/* Initialize the particle information */
+		this->initializeParticle(num_lines);
+
+		/*****************************************/
+		/* Read the particle information */
+		num_lines = 0;
+		fin.open(fname_in.c_str(), std::ios::in);
+		while(getline(fin, str)) {
+			if( sscanf(str.c_str(), "%lf %lf %lf",  &x, &y, &z) != 3 ) {
+				continue;
+			}
+			this->P[num_lines].pos[0] = x;
+			this->P[num_lines].pos[1] = y;
+			this->P[num_lines].pos[2] = z;
+			num_lines++;
+		}
+		fin.close();
+		/*****************************************/
+
+        if(this->calcMinAndMax()) {
+            return -1;
+        }
+
+		return 0;
+	}
+
+	static int printParameters(ParameterClass & param, ParticleGadgetClass & P) {
+
+    	FILE *fp;
+    	char buf[1024];
+    	sprintf(buf, "%s/simulation_parameters", param.output_dir.c_str());
+    	if( !(fp = fopen(buf,"w")) ) {
+    		if(ThisTask == 0) { printf("output directry '%s' does not exist\n", param.output_dir.c_str()); }
+    		return -1;
+    	}
+    
+    	fprintf(fp, "\n");
+    	fprintf(fp, "P.n_tot = %lld\n", P.n_tot);
+    	fprintf(fp, "\n");
+        fprintf(fp, "P.redshift = %.5f\n", P.redshift);
+        fprintf(fp, "P.scaleFactor = %.5f\n", P.scaleFactor);
+        fprintf(fp, "P.boxsize [Mpc/h] = %.5f\n", P.boxsize);
+        fprintf(fp, "P.omegaM0 = %.5f\n", P.omegaM0);
+        fprintf(fp, "P.omegaLambda = %.5f\n", P.omegaLambda);
+        fprintf(fp, "P.hubble = %.5f\n", P.hubble);
+        fprintf(fp, "P.mass [10^10 Msun/h] = %.10f\n", P.mass);
+    	fprintf(fp, "\n");
+        fprintf(fp, "nbar / 1.0e-4 [(Mpc/h)^{-3}] = %.5f\n", double(P.n_tot)/pow(P.boxsize, 3)/1.0e-4);
+    	fprintf(fp, "\n");
+    	fprintf(fp, "P.pos_min[0] [Mpc/h] = %.5f\n", P.pos_min[0]);
+    	fprintf(fp, "P.pos_min[1] [Mpc/h] = %.5f\n", P.pos_min[1]);
+    	fprintf(fp, "P.pos_min[2] [Mpc/h] = %.5f\n", P.pos_min[2]);
+    	fprintf(fp, "\n");
+        fprintf(fp, "P.pos_max[0] [Mpc/h] = %.5f\n", P.pos_max[0]);
+    	fprintf(fp, "P.pos_max[1] [Mpc/h] = %.5f\n", P.pos_max[1]);
+    	fprintf(fp, "P.pos_max[2] [Mpc/h] = %.5f\n", P.pos_max[2]);
+    	fprintf(fp, "\n");
+    
+        fclose(fp);
+
+	    return 0;
+    }
+
+	static int printParametersForReconstruction(ParameterClass & param, ParticleGadgetClass & P_D,  ParticleGadgetClass & P_R, double alpha) {
+
+    	FILE *fp;
+    	char buf[1024];
+    	sprintf(buf, "%s/simulation_parameters", param.output_dir.c_str());
+    	if( !(fp = fopen(buf,"w")) ) {
+    		if(ThisTask == 0) { printf("output directry '%s' does not exist\n", param.output_dir.c_str()); }
+    		return -1;
+    	}
+    
+    	fprintf(fp, "\n");
+    	fprintf(fp, "P_D.n_tot = %lld\n", P_D.n_tot);
+    	fprintf(fp, "P_R.n_tot = %lld\n", P_R.n_tot);
+    	fprintf(fp, "\n");
+        fprintf(fp, "P_D.redshift = %.5f\n", P_D.redshift);
+        fprintf(fp, "P_D.scaleFactor = %.5f\n", P_D.scaleFactor);
+        fprintf(fp, "P_D.boxsize [Mpc/h] = %.5f\n", P_D.boxsize);
+        fprintf(fp, "P_D.omegaM0 = %.5f\n", P_D.omegaM0);
+        fprintf(fp, "P_D.omegaLambda = %.5f\n", P_D.omegaLambda);
+        fprintf(fp, "P_D.hubble = %.5f\n", P_D.hubble);
+        fprintf(fp, "P_D.mass [10^10 Msun/h] = %.10f\n", P_D.mass);
+    	fprintf(fp, "\n");
+        fprintf(fp, "alpha = %.5f\n", alpha);
+        fprintf(fp, "nbar / 1.0e-4 [(Mpc/h)^{-3}] = %.5f\n", double(P_D.n_tot)/pow(P_D.boxsize, 3)/1.0e-4);
+    	fprintf(fp, "\n");
+    	fprintf(fp, "P_D.pos_min[0] [Mpc/h] = %.5f\n", P_D.pos_min[0]);
+    	fprintf(fp, "P_D.pos_min[1] [Mpc/h] = %.5f\n", P_D.pos_min[1]);
+    	fprintf(fp, "P_D.pos_min[2] [Mpc/h] = %.5f\n", P_D.pos_min[2]);
+    	fprintf(fp, "P_R.pos_min[0] [Mpc/h] = %.5f\n", P_R.pos_min[0]);
+    	fprintf(fp, "P_R.pos_min[1] [Mpc/h] = %.5f\n", P_R.pos_min[1]);
+    	fprintf(fp, "P_R.pos_min[2] [Mpc/h] = %.5f\n", P_R.pos_min[2]);
+    	fprintf(fp, "\n");
+        fprintf(fp, "P_D.pos_max[0] [Mpc/h] = %.5f\n", P_D.pos_max[0]);
+    	fprintf(fp, "P_D.pos_max[1] [Mpc/h] = %.5f\n", P_D.pos_max[1]);
+    	fprintf(fp, "P_D.pos_max[2] [Mpc/h] = %.5f\n", P_D.pos_max[2]);
+        fprintf(fp, "P_R.pos_max[0] [Mpc/h] = %.5f\n", P_R.pos_max[0]);
+    	fprintf(fp, "P_R.pos_max[1] [Mpc/h] = %.5f\n", P_R.pos_max[1]);
+    	fprintf(fp, "P_R.pos_max[2] [Mpc/h] = %.5f\n", P_R.pos_max[2]);
+    	fprintf(fp, "\n");
+    
+        fclose(fp);
+
+	    return 0;
+    }
+
+
+	int setRSD(ParameterClass & param) {
+
+        /******************************************************************************************************/
+        /* This function adds the RSD effect to the particles for the specified axis direction under the global plane-parallel approximation. */
+        /*****************************************************************************************************/
+
+        int _Z_ = 2;
+
+        if(this->P == NULL) {
+            return -1;
+        }
+
+		const double a = this->scaleFactor;
+		double hubble = 100.0 * sqrt(this->omegaM0 / pow(a,3) + (1.0 - this->omegaM0 - this->omegaLambda) / pow(a,2) + this->omegaLambda); 
+		double aH = this->scaleFactor * hubble; // aH;
+
+        if(aH <= 0.0) {
+            return -1;
+        }
+
+		for (long long i = 0; i < this->n_tot; i++) {
+			this->P[i].pos[_Z_] += this->P[i].vel[_Z_] / aH;
+		}
+
+        /* Impose periodic boundary condisions */
+        if(this->calcPeriodicBoundary(param)) {
+            return -1;
+        }
+	
+		return 0;
+	}
+
+	int calcPeriodicBoundary(ParameterClass & param) {
+
+        /*************************************************************************************************************/
+        /* This function reinserts the particles outside the box into the box under the periodic boundary condition. */
+        /*************************************************************************************************************/
+
+        if(this->P == NULL) {
+            return -1;
+        }
+	
+		for(long long p = 0; p < this->n_tot; p++) {
+		
+			for(int axes = 0; axes < 3; axes++) {
+				if(this->P[p].pos[axes] >= param.boxsize[axes]) {
+					this->P[p].pos[axes] -= param.boxsize[axes];
+				} else if(this->P[p].pos[axes] < 0.0) {
+					this->P[p].pos[axes] += param.boxsize[axes];
+				}
+			}
+		}
+
+        if(this->calcMinAndMax()) {
+            return -1;
+        }
+
+		return 0;
+	}
+
+	int calcMinAndMax() {
+		
+		if( this->P == NULL) { return -1; }
+
+		double min[3], max[3];
+
+		min[0] = this->P[0].pos[0]; max[0] = this->P[0].pos[0];
+		min[1] = this->P[0].pos[1]; max[1] = this->P[0].pos[1];
+		min[2] = this->P[0].pos[2]; max[2] = this->P[0].pos[2];
+
+		for (long long i = 0; i < this->n_tot; i++) {
+			if(min[0] > this->P[i].pos[0]) {
+				min[0] = this->P[i].pos[0];
+			}
+			if(min[1] > this->P[i].pos[1]) {
+				min[1] = this->P[i].pos[1];
+			}
+			if(min[2] > this->P[i].pos[2]) {
+				min[2] = this->P[i].pos[2];
+			}
+
+			if(max[0] < this->P[i].pos[0]) {
+				max[0] = this->P[i].pos[0];
+			}
+			if(max[1] < this->P[i].pos[1]) {
+				max[1] = this->P[i].pos[1];
+			}
+			if(max[2] < this->P[i].pos[2]) {
+				max[2] = this->P[i].pos[2];
+			}
+		}
+		this->pos_min[0] = min[0]; this->pos_max[0] = max[0];
+		this->pos_min[1] = min[1]; this->pos_max[1] = max[1];
+		this->pos_min[2] = min[2]; this->pos_max[2] = max[2];
+	
+		return 0;
+	}
+
+	int resetParticle() {
+
+		if( this->P == NULL) { return -1; }
+		for (long long p = 0; p < this->n_tot; p++) {
+			this->P[p].pos[0] -= this->pos_min[0];
+			this->P[p].pos[1] -= this->pos_min[1];
+			this->P[p].pos[2] -= this->pos_min[2];
+		}
+
+		return 0;
+	}
+
+    int resetParameters(ParameterClass & param) {
+
+        param.boxsize[0] = this->boxsize;
+        param.boxsize[1] = this->boxsize;
+        param.boxsize[2] = this->boxsize;
+
+        param.volume = param.boxsize[0] * param.boxsize[1] * param.boxsize[2];
+
+        return 0;
+    
+    }
+
+};
+
+#endif
+
+
