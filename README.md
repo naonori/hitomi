@@ -61,8 +61,8 @@ All the contents of the downloaded `Hitomi` directory will be properly copied in
 
 Download the following source files and copy them into `hitomi/env`:
   
- - [Anaconda3-2021.05-Linux-x86_64.sh](https://www.anaconda.com/)
- - [Cuba-4.2.1.tar.gz](http://www.feynarts.de/cuba/)
+ - [Anaconda3-2021.05-Linux-x86_64.sh](https://www.anaconda.com/) (for Hitomi)
+ - [Cuba-4.2.1.tar.gz](http://www.feynarts.de/cuba/) (for Hitomi_theory)
  - [FFTLog-master.zip](https://github.com/slosar/FFTLog)
  - [MultiNest-3.10.zip](https://github.com/JohannesBuchner/MultiNest/tree/v3.10)
  - [PyMultiNest-2.10.zip](https://github.com/JohannesBuchner/PyMultiNest/tree/v2.10)
