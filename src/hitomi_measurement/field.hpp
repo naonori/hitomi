@@ -903,7 +903,7 @@ public:
 		fftw_execute(plan);
 		fftw_destroy_plan(plan);
 
-		int n_temp = 30000;
+		int n_temp = 20000;
 		double dr_temp = 0.5;
 		std::complex<double> * xi_temp = new std::complex<double>[n_temp];
 		int * n_mode_temp = new int[n_temp];
@@ -911,7 +911,8 @@ public:
 			xi_temp[i] = 0.0; 
 			n_mode_temp[i] = 0.0; 
 		}
-	       	for(int i = 0; i < this->param.n_rbin; i++) { 
+
+	    for(int i = 0; i < this->param.n_rbin; i++) { 
 			this->xi[i] = 0.0; 
 			this->n_mode_xi[i] = 0.0; 
 		}

@@ -35,11 +35,35 @@ for NS in ["North", "South"]:
 #        for (ell1, ell2, ELL) in MULTIPOLE:
             for ith_bin in [0]: # for ith_bin in range(0,13):
                 for realization in [0]:
+
+                    if (data == "mock") and (measure == "window2PCF" or measure == "window3PCF"):
+
+                        realization = 0
+
+                    elif (data == "mock") and not (measure == "window2PCF" or measure == "window3PCF"):
+
+                        if realization == 0:
+
+                            print("ERROR")
+                            exit()
+
+                        else:
+                            
+                            pass
+
+                    elif data == "galaxy":
+    
+                        if realization != 0:
+
+                            print("ERROR")
+                            exit()
+
+                        else:
+                            
+                            pass
+
                     for NR in [0]:
     
-                        if data == "galaxy":
-                            realizaton = 0
-        
                         fr = open("default_param.ini", "r")
                         AA = fr.readlines()
                         fr.close()
@@ -119,15 +143,14 @@ for NS in ["North", "South"]:
                 
                             if flag_recon == "False":
                                 
-                                if weight == 0:
+                                if weight == 0 and not (measure == "window2PCF" or measure == "window3PCF"):
                                     AA = [AA[i].replace("output_dir = results",\
                                                         "output_dir = galaxy_%s_zbin%d" %(NS, zbin)) for i in range(len(AA))]
     
-                                    if measure == "widnow2PCF" or measure == "widnow3PCF":
-    
-                                        AA = [AA[i].replace("output_dir = results",\
-                                                            "output_dir = galaxy_%s_zbin%d_Window" %(NS, zbin)) for i in range(len(AA))]
-    
+                                elif weight == 0 and (measure == "window2PCF" or measure == "window3PCF"):
+       
+                                    AA = [AA[i].replace("output_dir = results",\
+                                                        "output_dir = galaxy_%s_zbin%d_Window" %(NS, zbin)) for i in range(len(AA))]
                                 elif weight == 1:
                                     AA = [AA[i].replace("output_dir = results",\
                                                         "output_dir = galaxy_%s_zbin%d_Weight1_OnlySys" %(NS, zbin)) for i in range(len(AA))]
@@ -140,14 +163,14 @@ for NS in ["North", "South"]:
         
                             elif flag_recon == "True":
     
-                                if weight == 0:
+                                if weight == 0 and not (measure == "window2PCF" or measure == "window3PCF"):
                                     AA = [AA[i].replace("output_dir = results",\
                                                         "output_dir = galaxy_%s_zbin%d_recon_R%02d" %(NS, zbin, RG)) for i in range(len(AA))]
     
-                                    if measure == "window2PCF" or measure == "window3PCF":
-    
-                                        AA = [AA[i].replace("output_dir = results",\
-                                                            "output_dir = galaxy_%s_zbin%d_recon_R%02d_Window" %(NS, zbin, RG)) for i in range(len(AA))]
+                                elif weight == 0 and (measure == "window2PCF" or measure == "window3PCF"):
+ 
+                                    AA = [AA[i].replace("output_dir = results",\
+                                                        "output_dir = galaxy_%s_zbin%d_recon_R%02d_Window" %(NS, zbin, RG)) for i in range(len(AA))]
     
                                 elif weight == 1:
                                     AA = [AA[i].replace("output_dir = results",\
@@ -169,29 +192,42 @@ for NS in ["North", "South"]:
                             AA = [AA[i].replace("random_DR12v5_CMASSLOWZTOT_North_ZBIN1.dat",\
                                                 "Patchy-Mocks-Randoms-DR12%s-COMPSAM_V6C_x100_ZBIN%d.dat" % (NGC_SGC, zbin)) for i in range(len(AA))]
         
-                            if flag_recon == "False":
+                            if flag_recon == "False" and not (measure == "window2PCF" or measure == "window3PCF"):
+
                                 AA = [AA[i].replace("output_dir = results",\
                                                     "output_dir = mock_%s_zbin%d" %(NS, zbin)) for i in range(len(AA))]
     
-                                if measure == "window2PCF" or measure == "window3PCF":
     
-                                    AA = [AA[i].replace("output_dir = results",\
-                                                        "output_dir = mock_%s_zbin%d_Window" %(NS, zbin)) for i in range(len(AA))]
+                            elif flag_recon == "False" and (measure == "window2PCF" or measure == "window3PCF"):
+
+                                AA = [AA[i].replace("output_dir = results",\
+                                                    "output_dir = mock_%s_zbin%d_Window" %(NS, zbin)) for i in range(len(AA))]
     
-                            elif flag_recon == "True":
+                            elif flag_recon == "True" and not (measure == "window2PCF" or measure == "window3PCF"):
                                 AA = [AA[i].replace("output_dir = results",\
                                                     "output_dir = mock_%s_zbin%d_recon_R%02d" %(NS, zbin, RG)) for i in range(len(AA))]
+                            
+                            elif flag_recon == "True" and (measure == "window2PCF" or measure == "window3PCF"):
     
-                                if measure == "window2PCF" or measure == "window3PCF":
-    
-                                    AA = [AA[i].replace("output_dir = results",\
-                                                        "output_dir = mock_%s_zbin%d_recon_R%02d_Window" %(NS, zbin, RG)) for i in range(len(AA))]
-    
+                                AA = [AA[i].replace("output_dir = results",\
+                                                    "output_dir = mock_%s_zbin%d_recon_R%02d_Window" %(NS, zbin, RG)) for i in range(len(AA))]
     
                         AA = [AA[i].replace("measure = pk", "measure = %s" % measure) for i in range(len(AA))]
     
-                        AA = [AA[i].replace("realization = 0", "realization = %d" % realization) for i in range(len(AA))]
-        
+                        if data == "galaxy":
+
+                            AA = [AA[i].replace("realization = 0", "realization = 0") for i in range(len(AA))]
+
+                        elif data == "mock":
+                            
+                            if measure == "window2PCF" or measure == "window3PCF":
+
+                                AA = [AA[i].replace("realization = 0", "realization = 0") for i in range(len(AA))]
+
+                            else:
+                                
+                                AA = [AA[i].replace("realization = 0", "realization = %d" % realization) for i in range(len(AA))]
+                        
                         AA = [AA[i].replace("ell1 = 0", "ell1 = %d" % ell1) for i in range(len(AA))]
                         AA = [AA[i].replace("ell2 = 0", "ell2 = %d" % ell2) for i in range(len(AA))]
                         AA = [AA[i].replace("ELL  = 0", "ELL  = %d" %  ELL) for i in range(len(AA))]

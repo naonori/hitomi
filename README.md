@@ -30,7 +30,7 @@ This set of codes is a collection of programs that were used to write the follow
 
 ### Note
 
-There is no detailed documentation for using our code, but all the steps are available as videos on **YOUTUBE**. Our code set is not wholly idealized, so users may need to do some manual work from time to time to complete the cosmological analysis. (e.g., creating some directories, changing input parameters manually, etc.). It is not easy to explain those details in the documentation, but the video will make it clear.
+There is no detailed documentation for using our code, but all the steps are available as videos on **YOUTUBE**. Our code set is not wholly idealized, so users may need to do some manual work from time to time to complete the cosmological analysis. (e.g., creating some directories, changing input parameters manually, etc.). It is not easy to explain all those details in the documentation, but the video will make it clear.
 
 # Description
 
@@ -61,10 +61,14 @@ All the contents of the downloaded `Hitomi` directory will be properly copied in
 
 Download the following source files and copy them into `hitomi/env`:
   
- - [Anaconda3-2021.05-Linux-x86_64.sh](https://www.anaconda.com/) (for Hitomi)
- - [Cuba-4.2.1.tar.gz](http://www.feynarts.de/cuba/) (for Hitomi_theory)
+ - [Anaconda3-2021.05-Linux-x86_64.sh](https://www.anaconda.com/)
+    - `hitomi_theory` and `class` require `python3`. `Anaconda3` is a convenient way to build `python3` and its surrounding environment.
+ - [Cuba-4.2.1.tar.gz](http://www.feynarts.de/cuba/)
+    - `hitomi_theory` uses `pycuba` to perform multiple integrations numerically. The original `cuba` library is required to install `pycuba`.
  - [FFTLog-master.zip](https://github.com/slosar/FFTLog)
+    - `hitomi_theory` uses FFTLog to compute Hankel transforms from the power spectrum and bispectrum to the 2PCF and 3PCF, respectively.
  - [MultiNest-3.10.zip](https://github.com/JohannesBuchner/MultiNest/tree/v3.10)
+    - 
  - [PyMultiNest-2.10.zip](https://github.com/JohannesBuchner/PyMultiNest/tree/v2.10)
  - [astropy-4.3.zip](https://github.com/astropy/astropy/tree/v4.3)
  - [class_public-3.0.1.zip](https://github.com/lesgourg/class_public/tree/v3.0.1)
@@ -88,7 +92,13 @@ If `Hitomi` is installed correctly, the final directory structure will be:
     $WORK> ls
     $WORK> analysis/ cosmo/ covariance/ data/ figure/ measurement/ model/
 
-We have assumed that users do not have an external network, so all libraries are installed from the source files. However, if users have access to an external network, it will be easier to build the environment. In that case, the text written in "install.sh" can help users install the above 14 libraries in their environment.
+### Note
+
+1. We have assumed that users do not have an external network, so all libraries are installed from the source files. However, if users have access to an external network, it will be easier to build the environment. In that case, please refer to the text written in "install.sh" to install the above 14 libraries in the user's environment.
+
+2. If users have already installed some of the above libraries (e.g., `fftw3`, `gsl`, `astropy`, etc.) in their environment, they do not need to re-install them in `$WORK/cosmo`.
+    
+3. Users just need to specify where to install `fftw` and `gsl` in the user's environment in `hitomi/src/hitomi_measurement/Makefile` and hitomi/src/hitomi_theory/setup.py`.
 
 ## [1] Data
 
