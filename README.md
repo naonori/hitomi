@@ -5,7 +5,7 @@
 | **Author:** | **Naonori Sugiyama <<nao.s.sugiyama@gmail.com>>**|
 | Licence: | MIT |
 
-The purpose of the `Hitomi` project is to provide a comprehensive set of codes for cosmological analysis of anisotropic galaxies using two- and three-point statistics: two-point correlation function (2PCF), power spectrum, three-point correlation function (3PCF), and bispectrum.
+The purpose of the `Hitomi` project is to provide a comprehensive set of codes for cosmological analysis of anisotropic galaxy distributions using two- and three-point statistics: two-point correlation function (2PCF), power spectrum, three-point correlation function (3PCF), and bispectrum.
 
 Specifically, this set of codes is divided into seven phases:
 
@@ -63,20 +63,28 @@ Download the following source files and copy them into `hitomi/env`:
   
  - [Anaconda3-2021.05-Linux-x86_64.sh](https://www.anaconda.com/)
     - `hitomi_theory` and `class` require `python3`. `Anaconda3` is a convenient way to build `python3` and its surrounding environment.
+ - [fftw-3.3.9.tar.gz](http://www.fftw.org/index.html)
+    - `hitomi_measurement` and `hitomi_theory` require `fftw3`.
+ - [gsl-2.7.tar.gz](https://www.gnu.org/software/gsl/)
+    - `hitomi_measurement` and `hitomi_theory` require `gsl`.
  - [Cuba-4.2.1.tar.gz](http://www.feynarts.de/cuba/)
     - `hitomi_theory` uses `pycuba` to perform multiple integrations numerically. The original `cuba` library is required to install `pycuba`.
  - [FFTLog-master.zip](https://github.com/slosar/FFTLog)
-    - `hitomi_theory` uses FFTLog to compute Hankel transforms from the power spectrum and bispectrum to the 2PCF and 3PCF, respectively.
+    - `hitomi_theory` uses FFTLog to compute Hankel transforms from the power spectrum and bispectrum to the 2PCF and 3PCF, respectively, and vice versa. `hitomi_theory` requires that the contents of `FFTLog` written in C be rewritten to wrap in python. Therefore, `FFTLog` must be installed anew by the user.
  - [MultiNest-3.10.zip](https://github.com/JohannesBuchner/MultiNest/tree/v3.10)
-    - 
- - [PyMultiNest-2.10.zip](https://github.com/JohannesBuchner/PyMultiNest/tree/v2.10)
- - [astropy-4.3.zip](https://github.com/astropy/astropy/tree/v4.3)
- - [class_public-3.0.1.zip](https://github.com/lesgourg/class_public/tree/v3.0.1)
+    - `montepython` requires `pymultinest`, and the original `multinest` is needed to install `pymultinest`.
  - [cmake-3.21.1.tar.gz](https://cmake.org/)
- - [fftw-3.3.9.tar.gz](http://www.fftw.org/index.html)
- - [gsl-2.7.tar.gz](https://www.gnu.org/software/gsl/)
+    - To install `pymultinest`, `cmake` is required.
  - [lapack-3.10.0.tar.gz](http://www.netlib.org/lapack/)
+    - To install `pymultinest`, `lapack` is required.
+ - [PyMultiNest-2.10.zip](https://github.com/JohannesBuchner/PyMultiNest/tree/v2.10)
+    - `pymultinest` installs `pymultinest` and `pycuba` at the same time. `montepython` and `hitomi_theory` require `pymultinest` and `pycuba`, respectively.
+ - [astropy-4.3.zip](https://github.com/astropy/astropy/tree/v4.3)
+    - `astropy` is used to read fits files containing the BOSS galaxy distribution data.
+ - [class_public-3.0.1.zip](https://github.com/lesgourg/class_public/tree/v3.0.1)
+    - `class` is used to compute linear power spectra and various cosmological functions such as the linear growth factor and the linear growth rate. 
  - [montepython_public-3.4.zip](https://github.com/brinckmann/montepython_public/tree/3.4)
+    - `montepython` is used to estimate cosmological parameters of interest.
 
 After the above libraries are installed correctly, users can install `hitomi_measurement` and `hitomi_theory` in `hitomi/src`. All the libraries can be installed via `install.sh`.
 
