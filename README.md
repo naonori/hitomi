@@ -107,7 +107,7 @@ If `Hitomi` is installed correctly, the final directory structure will be:
 
 2. If users have already installed some of the above libraries (e.g., `fftw3`, `gsl`, `astropy`, etc.) in their environment, they do not need to re-install them in `$WORK/cosmo`.
     
-3. Users just need to specify where to install `fftw` and `gsl` in the user's environment in `hitomi/src/hitomi_measurement/Makefile` and `hitomi/src/hitomi_theory/setup.py`.
+3. Users need to specify where to install `fftw` and `gsl` in the user's environment in `hitomi/src/hitomi_measurement/Makefile` and `hitomi/src/hitomi_theory/setup.py`.
 
 ## [1] Data
 
