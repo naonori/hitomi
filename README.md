@@ -329,7 +329,7 @@ It is surprisingly time-consuming to draw beautiful and clear figures. It is a s
 
 In this section, we demonstrate how to use `Hitomi` to reproduce the results of our paper.
 
-### - Modified Gravity -
+### Modified Gravity
 
 Using the 2PCF, the reconstructed 2PCF, and the 3PCF measured from the BOSS DR12 galaxy data, we test the scalar-tensor theory (Horndeski and DHOST theories), a type of modified gravity theory. We also discuss the observational systematics that appear in the 3PCF before actually performing the cosmological analysis.
 
@@ -344,28 +344,19 @@ Using the 2PCF, the reconstructed 2PCF, and the 3PCF measured from the BOSS DR12
 
 2. Measurement
 
-    - 2PCF of the BOSS galaxy sample before reconstruction
-    - window 2PCF of the BOSS galaxy sample before reconstruction
+    - 2PCFs of the four BOSS DR12 galaxy samples (NGC zbin1, NGC zbin3, SGC zbin1, and SGC zbin3) before and after reconstruction, and their corresponding window 2PCFs ([implemented](https://youtu.be/1XLLC8ZwLoY))
 
-    - 2PCFs of 2048 Patchy mock sample before reconstruction using MPI
-    - window 2PCF of the Patchy mock before reconstruction
+    - 3PCFs of the four BOSS DR12 galaxy samples (NGC zbin1, NGC zbin3, SGC zbin1, and SGC zbin3) and their corresponding window 3PCFs ([implemented](https://youtu.be/STCfxCa3NNk))
 
-    - 2PCF of the BOSS galaxy sample after reconstruction
-    - window 2PCF of the BOSS galaxy sample after reconstruction
+    - 2PCFs of the 2048 Patchy mock catalogues corresponding of each four BOSS DR12 galaxy samples before and after reconstruction, and the corresponding window 2PCFs
 
-    - 2PCFs of 2048 Patchy mock sample after reconstruction using MPI
-    - window 2PCF of the Patchy mock after reconstruction
-
-    - 3PCF of the BOSS galaxy sample before reconstruction
-    - window 3PCF of the BOSS galaxy sample before reconstruction
-
-    - 3PCFs of 2048 Patchy mock sample before reconstruction using MPI
-    - window 3PCF of the Patchy mock before reconstruction
+    - 3PCFs of the 2048 Patchy mock catalogues corresponding of each four BOSS DR12 galaxy samples and the corresponding window 3PCFs.
 
 3. Model
 
-    - parameter-decomposed 2PCFs
+    - parameter-decomposed 2PCFs ([implemented](https://youtu.be/FVkwJnpOCvM))
     - parameter-decomposed 3PCFs
+    - window function corrections
     - Re-saving the results to make them convenient for data analysis
 
 4. Covariance
