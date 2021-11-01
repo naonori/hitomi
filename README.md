@@ -295,7 +295,7 @@ The observed galaxy sample contains a variety of observational systematics. Ther
 
 ----------------------
 
-The BAO analysis, widely performed using power spectrum and 2PCF, mainly constrains the Hubble parameter and the angular diameter distance. Furthermore, the RSD analysis can also constrain the growth rate parameter fsigma8 that characterizes the amplitude of the velocity field. The addition of the bispectrum and 3PCF is considered to improve the constraints on these three parameters. Indeed, [Sugiyama et al. 2021](https://academic.oup.com/mnras/article/501/2/2862/6019894) have shown that adding of the 3PCF can improve the constraint on the Hubble parameter by 30-40%.
+The BAO analysis, widely performed using power spectrum and 2PCF, mainly constrains the Hubble parameter and the angular diameter distance. Furthermore, the RSD analysis can also constrain the growth rate parameter fsigma8 that characterizes the amplitude of the velocity field. The addition of the bispectrum and 3PCF is considered to improve the constraints on these three parameters. Indeed, [Sugiyama et al. 2021](https://academic.oup.com/mnras/article/501/2/2862/6019894) have shown that adding of the 3PCF can improve the constraint on the Hubble parameter by ~ 30%.
 
 1. BAO analysis (***possible but not yet***)
 
@@ -355,14 +355,14 @@ Using the 2PCF, the reconstructed 2PCF, and the 3PCF measured from the BOSS DR12
 3. Model
 
     - parameter-decomposed 2PCFs ([implemented](https://youtu.be/FVkwJnpOCvM))
-    - parameter-decomposed 3PCFs
-    - window function corrections
-    - Re-saving the results to make them convenient for data analysis
+    - parameter-decomposed 3PCFs ([implemented](https://youtu.be/AzjfiKHUWVs))
+    - window function corrections ([implemented](https://youtu.be/4ZQ1RkAsPpA))
+    - Re-saving the calculation results of the 2PCF and 3PCF to make them convenient for data analysis ([implemented](https://youtu.be/fC4cP8TLhA8))
 
 4. Covariance
 
-    - covariance from the measurements from the Patch mock catalogues
-    - Re-saving the results to make them convenient for data analysis
+    - covariance from the measurements from the Patch mock catalogues ([implemented](https://youtu.be/p1K3hoRjEpM))
+    - Re-saving the calculation results of the covariance matrix to make them convenient for data analysis ([implemented](https://youtu.be/wU3cjgZXlp8))
 
 5. Analysis 
 
