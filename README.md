@@ -1,4 +1,4 @@
-[TEST](LOSENCE)
+[TEST](/LOCENSE)
 
 # Hitomi
 
