@@ -1,4 +1,4 @@
-[TEST](./LOCENSE)
+[TEST](/LICENSE)
 
 # Hitomi
 
