@@ -1,3 +1,5 @@
+[TEST](LOSENCE)
+
 # Hitomi
 
 | Main developer: | Naonori Sugiyama <<nao.s.sugiyama@gmail.com>>|
