@@ -32,7 +32,7 @@ name_gsl=gsl-2.7
 name_cuba=Cuba-4.2.1
 name_cmake=cmake-3.21.1
 name_lapack=lapack-3.10.0
-name_multinest=MultiNest-3.10
+name_multinest=MultiNest-master
 name_pymultinest=PyMultiNest-2.10
 name_astropy=astropy-4.3
 name_class=class_public-3.0.1
@@ -151,8 +151,10 @@ name_fftlog=FFTLog-master
 #cd $TEMP
 #unzip $name_multinest\.zip
 #cd $name_multinest
-#MULTINEST=$COSMO/multinest
+#cd MultiNest_v3.12_CMake/multinest
+#mkdir build
 #cd build
+#MULTINEST=$COSMO/multinest
 #cmake -DCMAKE_INSTALL_PREFIX=$MULTINEST ..
 #make
 #make install
