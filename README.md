@@ -36,7 +36,7 @@ There is no detailed documentation for using our code, but all the steps are ava
 
 Here, we give a demonstration to complete the analysis that tests DHOST theories, a type of modified gravity theory, using the anisotropic 3PCF.
 
-- [Constraints on modified gravity theories](#DEMO_MG.md)
+- [Constraints on modified gravity theories](DEMO_MG.md)
 
 # Description
 
