@@ -32,11 +32,17 @@ This set of codes is a collection of programs that were used to write the follow
 
 There is no detailed documentation for using our code, but all the steps are available as videos on **YOUTUBE**. Our code set is not wholly idealized, so users may need to do some manual work from time to time to complete the cosmological analysis. (e.g., creating some directories, changing input parameters manually, etc.). It is not easy to explain all those details in the documentation, but the video will make it clear.
 
+# Demo
+
+Here, we give a demonstration to complete the analysis that tests DHOST theories, a type of modified gravity theory, using the anisotropic 3PCF.
+
+- [Constraints on modified gravity theories](#DEMO_MG.md)
+
 # Description
 
 This project is still in progress. The ultimate goal of this project is to implement all of the program listed below.
 
-The following list has "**implemented**" or "**not yet**" for each of the cases that have already been implemented in `Hitomi` and those that have not yet been implemented. In addition, cases that have already been calculated in the above-published papers but not yet implemented in `Hitomi` are appended with "**possible but not yet**". (as of September 28, 2021)
+The following list has "**implemented**" or "**not yet**" for each of the cases that have already been implemented in `Hitomi` and those that have not yet been implemented. In addition, cases that have already been calculated in the above-published papers but not yet implemented in `Hitomi` are appended with "**possible but not yet**". (as of February 08, 2022)
 
 All `Hitomi` code demonstrations use the galaxy sample derived from the Baryon Oscillation Spectroscopic Survey ([BOSS](http://www.sdss3.org/science/boss_publications.php)), part of the Data Release 12 of the Sloan Digital Sky Survey III ([SDSS-III DR12](https://www.sdss.org/dr12/)), and the corresponding Multi-Dark Patchy mock catalogues([Patchy mock](http://www.skiesanduniverses.org/page/page-3/page-15/page-9/)). These sample codes would be easily applicable to galaxy samples from other galaxy redshift surveys.
 
@@ -283,15 +289,9 @@ As an alternative method to solve this problem, the `Hitomi` project promotes th
 
 ## [5] Analysis
 
-The current `Hitomi` project envisages four types of data analysis: i.e., BAO, RSD, modified gravity, and PNG. In addition, `Hitomi` also tests the effect of observational systematics, which are corrected by a weight function for each galaxy.
+The current `Hitomi` project envisages four types of data analysis: i.e., BAO, RSD, modified gravity, and PNG.
 
 `Hitomi` uses [montepython3](https://github.com/brinckmann/montepython_public/tree/3.4) for parameter estimation.
-
-----------------------
-
-The observed galaxy sample contains a variety of observational systematics. Therefore, the correction function is weighted for each galaxy ([Reid et al.(2016)](https://academic.oup.com/mnras/article/455/2/1553/1112409)). The effects of these weighting functions have been studied in detail for the power spectrum and 2PCF but not yet for the bispectrum and 3PCF. It is also necessary to investigate how much the effects of these weighting functions differ before and after reconstruction. Thus, to use bispectrum and 3PCF in cosmological analysis, `Hitomi` should first understand their observational systematics.
-
-0. observational systematics ([implemented](#modified-gravity))
 
 ----------------------
 
@@ -303,13 +303,13 @@ The BAO analysis, widely performed using power spectrum and 2PCF, mainly constra
 
 ----------------------
 
-As of September 28, 2021, the primary focus of the `Hitomi` project is to test the modified theory of gravity using the anisotropic component of the 3PCF, i.e., the nonlinear shape of the velocity field. 
+As of February 08, 2022, the primary focus of the `Hitomi` project is to test the modified theory of gravity using the anisotropic component of the 3PCF, i.e., the nonlinear shape of the velocity field. 
 
 In the case of power spectra and 2PCFs, the anisotropic component along the line of sight, e.g., the quadrupole component, produced by RSD, can increase the cosmological information because the density fluctuations of galaxies that correspond to the isotropic component are biased quantities, while the velocity field is considered to be the unbiased physical quantity on large scales. Specifically, the quadrupole component of the power spectrum or 2PCF can measure the growth rate function, fsigma8, which can be used to test the modified theory of gravity.
 
 The same is true for bispectra and 3PCFs; the unique feature of `Hitomi` is that it can treat the anisotropic components of bispectra and 3PCFs both observationally and theoretically. Thus, the nonlinear modified gravity test with the anisotropic 3PCF is an analysis that takes full advantage of `Hitomi` characteristics.
 
-3. modified gravity ([implemented](#modified-gravity))
+3. modified gravity ([implemented](#DEMO_MG.md))
 
 ----------------------
 
@@ -324,12 +324,6 @@ As shown by [Sugiyama et al. 2020](https://academic.oup.com/mnras/article/497/2/
 `Hitomi` plans to release all the code used to plot the actual figures used in our papers. This release will make it easier for users to reproduce our results.
 
 It is surprisingly time-consuming to draw beautiful and clear figures. It is a significant part of the research, but it should not be the most crucial part. If users like our figure format, they can save their research time by using it.
-
-## Demo
-
-In this section, we demonstrate how to use `Hitomi` to reproduce the results of our paper.
-
-- [Constraints on modified gravity theories](DEMO_MG.md)
 
 ## Future Prospects
 
