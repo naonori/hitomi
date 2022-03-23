@@ -309,7 +309,7 @@ In the case of power spectra and 2PCFs, the anisotropic component along the line
 
 The same is true for bispectra and 3PCFs; the unique feature of `Hitomi` is that it can treat the anisotropic components of bispectra and 3PCFs both observationally and theoretically. Thus, the nonlinear modified gravity test with the anisotropic 3PCF is an analysis that takes full advantage of `Hitomi` characteristics.
 
-3. modified gravity ([implemented](#DEMO_MG.md))
+3. modified gravity ([implemented](DEMO_MG.md))
 
 ----------------------
 
