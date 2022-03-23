@@ -230,7 +230,7 @@ Furthermore, the loop correction results in a gravitational nonlinear coupling w
 
 In the galaxy cosmological analysis, the currently dominant method for calculating the covariance matrix is to prepare a large number of mock samples that reproduce the observed galaxy distribution and calculate it directly using a large number of power spectra, bispectra, 2PCFs, and 3PCFs measured from these samples. In fact, in [Sugiyama et al. 2021](https://academic.oup.com/mnras/article/501/2/2862/6019894), the covariance matrices of the 2PCF and 3PCF were calculated using 2048 mock galaxy catalogues from the [Multi-Dark Patchy mock](https://data.sdss.org/sas/dr12/boss/lss/dr12_multidark_patchy_mocks/) prepared for the SDSS DR12 BOSS analysis.
 
-0. covariance matrices computed from the 2048 Patchy mock catalogues ([implemented](#modified-gravity))
+0. covariance matrices computed from the 2048 Patchy mock catalogues ([implemented](DEMO_MG.md))
 
 ----------------------
 
