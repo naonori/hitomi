@@ -37,23 +37,22 @@ Using the 2PCF and the 3PCF measured from the BOSS DR12 galaxy data, we test the
 
 5. Analysis 
 
-    - Fisher analysis (implemented)
+    - Fisher analysis ([implemented](https://youtu.be/oKzLu9siQac))
 
-    - Observational systematics 
-    
-        - 2PCF (implemented)
-        - 3PCF (implemented)
-    
     - GR
 
-        - 2PCF (implemented)
-        - 3PCF (implemented)
+        - 2PCF
+        - 2PCF + 3PCF
 
     - Horndeski
 
+        - 2PCF + 3PCF
+
     - DHOST
-        
-6. Figure
+ 
+        - 2PCF + 3PCF
+       
+6. Figures and tables
 
     1.
 
