@@ -40,26 +40,26 @@ Using the 2PCF and the 3PCF measured from the BOSS DR12 galaxy data, we test the
     - Fisher analysis ([implemented](https://youtu.be/oKzLu9siQac))
 
     - 2PCF
-        - 100 Patchy mock samples ([https://youtu.be/q4n97hXluoc])
+        - 100 Patchy mock samples ([implemented](https://youtu.be/q4n97hXluoc)
         - BOSS galaxy sample
 
     - GR (2PCF+3PCF)
-        - 100 Patchy mock samples ([https://youtu.be/Lz8kpDerFNA])
-        - 100 Patchy mock samples without priors for non-linear bias parameters ([])
+        - 100 Patchy mock samples ([implemented](https://youtu.be/Lz8kpDerFNA))
+        - 100 Patchy mock samples without priors for non-linear bias parameters ([implemented](https://youtu.be/hfcq38Fb1OU))
         - BOSS galaxy sample
         - BOSS galaxy sample for the monopole 3PCF only
         - BOSS galaxy sample for the quadrupole 3PCF only
         - BOSS galaxy sample for the rescaled covariance for the galaxy sample at z=0.38.
 
     - Horndeski (2PCF+3PCF)
-        - 100 Patchy mock samples ([https://youtu.be/9R3Ic2yt_Nk])
+        - 100 Patchy mock samples ([implemented](https://youtu.be/9R3Ic2yt_Nk))
         - BOSS galaxy sample
         - BOSS galaxy sample for the monopole 3PCF only
         - BOSS galaxy sample for the quadrupole 3PCF only
         - BOSS galaxy sample for the rescaled covariance for the galaxy sample at z=0.38.
 
     - DHOST (2PCF+3PCF)
-        - 100 Patchy mock samples ([https://youtu.be/UWbheOHV7v4])
+        - 100 Patchy mock samples ([implemented](https://youtu.be/UWbheOHV7v4))
         - BOSS galaxy sample
         - BOSS galaxy sample without priors
         - BOSS galaxy sample for the monopole 3PCF only
