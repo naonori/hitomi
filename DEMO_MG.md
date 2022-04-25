@@ -40,31 +40,35 @@ Using the 2PCF and the 3PCF measured from the BOSS DR12 galaxy data, we test the
     - Fisher analysis ([implemented](https://youtu.be/oKzLu9siQac))
 
     - 2PCF
-        - 100 Patchy mock samples ([implemented](https://youtu.be/q4n97hXluoc)
-        - BOSS galaxy sample
+        - 100 Patchy mock samples ([implemented](https://youtu.be/q4n97hXluoc))
+
+        - BOSS galaxy sample ([implemented](https://youtu.be/bhMfhtkFurc))
 
     - GR (2PCF+3PCF)
         - 100 Patchy mock samples ([implemented](https://youtu.be/Lz8kpDerFNA))
         - 100 Patchy mock samples without priors for non-linear bias parameters ([implemented](https://youtu.be/hfcq38Fb1OU))
-        - BOSS galaxy sample
-        - BOSS galaxy sample for the monopole 3PCF only
-        - BOSS galaxy sample for the quadrupole 3PCF only
-        - BOSS galaxy sample for the rescaled covariance for the galaxy sample at z=0.38.
+
+        - BOSS galaxy sample ([implemented](https://youtu.be/j35Iiy5Wlag))
+        - BOSS galaxy sample for the monopole 3PCF only ([implemented](https://youtu.be/RATeN7mKbxc))
+        - BOSS galaxy sample for the quadrupole 3PCF only ([implemented](https://youtu.be/_mPTkmVy8eM))
+        - BOSS galaxy sample for the rescaled covariance for the galaxy sample at z=0.38 ([implemented](https://youtu.be/7D-eq5igzHk))
 
     - Horndeski (2PCF+3PCF)
         - 100 Patchy mock samples ([implemented](https://youtu.be/9R3Ic2yt_Nk))
-        - BOSS galaxy sample
-        - BOSS galaxy sample for the monopole 3PCF only
-        - BOSS galaxy sample for the quadrupole 3PCF only
-        - BOSS galaxy sample for the rescaled covariance for the galaxy sample at z=0.38.
+
+        - BOSS galaxy sample ([implemented](https://youtu.be/kIDN7AWlbRc))
+        - BOSS galaxy sample for the monopole 3PCF only ([implemented](https://youtu.be/QvQYP3bpHCc))
+        - BOSS galaxy sample for the quadrupole 3PCF only ([implemented](https://youtu.be/NlagX7LPPMs))
+        - BOSS galaxy sample for the rescaled covariance for the galaxy sample at z=0.38 ([implemented](https://youtu.be/2WgfM2OpP8c))
 
     - DHOST (2PCF+3PCF)
         - 100 Patchy mock samples ([implemented](https://youtu.be/UWbheOHV7v4))
-        - BOSS galaxy sample
-        - BOSS galaxy sample without priors
-        - BOSS galaxy sample for the monopole 3PCF only
-        - BOSS galaxy sample for the quadrupole 3PCF only
-        - BOSS galaxy sample for the rescaled covariance for the galaxy sample at z=0.38.
+
+        - BOSS galaxy sample ([implemented](https://youtu.be/0jHvQjaqwPk))
+        - BOSS galaxy sample for the monopole 3PCF only ([implemented]())
+        - BOSS galaxy sample for the quadrupole 3PCF only ([implemented]())
+        - BOSS galaxy sample without priors ([implemented]())
+        - BOSS galaxy sample for the rescaled covariance for the galaxy sample at z=0.38 ([implemented]())
        
 6. Figures and tables
 
