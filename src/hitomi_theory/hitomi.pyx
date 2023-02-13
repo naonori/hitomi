@@ -107,6 +107,14 @@ cdef extern from "cpp/calc_P.hpp":
             double sigma8, double fz, double b1,
             double sigma2_perp, double sigma2_para)
 
+    int integrand_P_Tree_Reconstructed_Correction(
+            double * xx_in, int ndim, double * ff_out, int ncomp, 
+            double * kbin, int num_k_bin, int ELL,
+            double alpha_perp, double alpha_parallel,
+            double sigma8, double fz, double b1,
+            double sigma2_perp, double sigma2_para,
+            double one_over_b1_fid, double R)
+
     int integrand_P_Tree_BAO_Template(
             double * xx_in, int ndim, double * ff_out, int ncomp, 
             double * kbin, int num_k_bin, int ELL,
@@ -157,6 +165,24 @@ def integrand_P_Tree_BAO_py(
             &kbin[0], num_k_bin, ELL, 
             alpha_perp, alpha_parallel, sigma8, fz, b1, 
             sigma2_perp, sigma2_para)
+
+
+def integrand_P_Tree_Reconstructed_Correction_py(
+        np.ndarray[double, ndim=1, mode="c"] xx_in not None, int ndim, np.ndarray[double, ndim=1, mode="c"] ff_out not None, int ncomp,
+        np.ndarray[double, ndim=1, mode="c"] kbin not None, int num_k_bin, int ELL, 
+        double alpha_perp, double alpha_parallel, 
+        double sigma8, double fz, double b1,
+        double sigma2_perp, double sigma2_para,
+        double one_over_b1_fid, double R):
+    return integrand_P_Tree_Reconstructed_Correction( 
+            &xx_in[0], ndim, & ff_out[0], ncomp,
+            &kbin[0], num_k_bin, ELL, 
+            alpha_perp, alpha_parallel, sigma8, fz, b1, 
+            sigma2_perp, sigma2_para,
+            one_over_b1_fid, R)
+
+
+
 
 def integrand_P_Tree_BAO_Template_py(
         np.ndarray[double, ndim=1, mode="c"] xx_in not None, int ndim, np.ndarray[double, ndim=1, mode="c"] ff_out not None, int ncomp,

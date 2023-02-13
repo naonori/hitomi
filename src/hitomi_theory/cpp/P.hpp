@@ -104,5 +104,25 @@ double Powerspectrum_Tree_BAO_Template(
 
 }
 
+double Powerspectrum_Tree_Reconstructed_Correction(
+        double * kvec_in, double * los,
+        double alpha_perp, double alpha_parallel,
+        double sigma8, double f, double b1,
+	    double sigma2_perp, double sigma2_para,
+        double one_over_b1_fid, double R
+        ) {
+
+	double alpha3 = alpha_perp * alpha_perp * alpha_parallel;
+	double kvec[3] = { 0.0, 0.0, 0.0 };
+	calcTrueWavevector(kvec_in, los, alpha_perp, alpha_parallel, kvec);
+	double k = NORM(kvec);
+    double D = ExpDamping(kvec, los, sigma2_perp, sigma2_para);
+    double W = exp( - pow(k * R, 2) / 2.0 );
+	double Kaiser = 2.0 * (1.0 - D) * (1.0 - one_over_b1_fid * W) * (- one_over_b1_fid * W) * Z1_Bias(kvec, los, f, b1) * Z1_Bias(kvec, los, f, b1) * pow(sigma8, 2);
+	double MC = Kaiser * f_pk_no_wiggle(k);
+	return (MC) / alpha3;
+
+}
+
 #endif
 

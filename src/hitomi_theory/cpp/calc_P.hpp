@@ -177,5 +177,34 @@ int integrand_P_sigma2_para_Reconstructed(
 
 }
 
+int integrand_P_Tree_Reconstructed_Correction(
+        double * xx_in, int ndim, double * ff_out, int ncomp, 
+        double * kbin, int num_kbin, int ELL, 
+        double alpha_perp, double alpha_parallel, double sigma8, double fz, double b1,
+        double sigma2_perp, double sigma2_para,
+        double one_over_b1_fid, double R) {
+
+	double mu  = -1.0 + 2.0 * xx_in[0];
+	double phi  = 0.0 + 2.0 * M_PI * xx_in[1];
+	phi = phi;
+
+	for(int i = 0; i < num_kbin; i++) {
+        	double kvec[3] = {0.0, 0.0, kbin[i]};
+        	double los[3]  = {sqrt(1.0 - mu * mu), 0.0, mu};
+        
+        	double L = LegendrePolynomials(ELL, mu);
+        	double Nlll = (2.0*double(ELL)+1.0);
+        	
+        	double result = Nlll * L * Powerspectrum_Tree_Reconstructed_Correction(
+                    kvec, los, alpha_perp, alpha_parallel, sigma8, fz, b1, sigma2_perp, sigma2_para, one_over_b1_fid, R);
+        	double jacobian = 1.0; //(2.0 / 2.0) * (2.0 * M_PI / (2.0 * M_PI));
+        
+        	ff_out[i] = result * jacobian;
+	}
+
+	return 0;
+}
+
+
 #endif
 

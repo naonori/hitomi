@@ -353,6 +353,7 @@ double b0_f4(double * kvec1, double * kvec2, double * los) {
     return V11(kvec1, kvec2, los) * LOS_MU1MU2(kvec1, kvec2, los);
 }
 /********/
+
 double BispectrumKernelFunctionTemplate(double * kvec1, double * kvec2, double * los, char * param_name_in) {
     
     std::string param_name = param_name_in;
@@ -468,6 +469,27 @@ double Bispectrum_Tree_BAO_Template(
     return (GG + GM_MG + NW) / alpha6;
 
 }
+
+/**********************/
+/*** Reconstruction ***/
+/**********************/
+
+// double Growth_and_Shift_Recon(double * kvec1, double * kvec2, double * los, double one_over_b1_fid, double f_fid, double R) {
+// 
+//     double kvec12[3] = PLUS(kvec1, kvec2);
+// 	double mu = MU(kvec1, kvec2);
+//     double k1 = NORM(kvec1);
+//     double k2 = NORM(kvec2);
+//     double W1 = exp( - pow(k1 * R, 2) / 2.0);
+//     double W2 = exp( - pow(k2 * R, 2) / 2.0);
+//     double result = 0.0;
+// 	if( (k1 > pk_kmin) && (k2 > pk_kmin)) {
+// 	    result = 0.5 * mu * (k1/k2 + k2/k1);
+//     }
+//     return result;
+// }
+
+
 
 double Primordial_Matter_Bispectrum_Local(double * kvec1_in, double * kvec2_in, double * kvec3_in) {
 

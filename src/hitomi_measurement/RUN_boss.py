@@ -134,8 +134,8 @@ for NS in ["North", "South"]:
             
                         if data == "galaxy":
                         
-                            AA = [AA[i].replace("data_dir = /mwork0/sugiymnn/WORK/data/boss/galaxy_DR12v5_CMASSLOWZTOT",\
-                                                "data_dir = /mwork0/sugiymnn/WORK/data/boss/galaxy_DR12v5_CMASSLOWZTOT") for i in range(len(AA))]
+                            AA = [AA[i].replace("data_dir = /mwork2/sugiymnn/WORK/data/boss/galaxy_DR12v5_CMASSLOWZTOT",\
+                                                "data_dir = /mwork2/sugiymnn/WORK/data/boss/galaxy_DR12v5_CMASSLOWZTOT") for i in range(len(AA))]
         
                             if weight == 0:
                                 AA = [AA[i].replace("galaxy_DR12v5_CMASSLOWZTOT_North_ZBIN1.dat",\
@@ -196,8 +196,8 @@ for NS in ["North", "South"]:
             
                         elif data == "mock":
             
-                            AA = [AA[i].replace("data_dir = /mwork0/sugiymnn/WORK/data/boss/galaxy_DR12v5_CMASSLOWZTOT",\
-                                                "data_dir = /mwork0/sugiymnn/WORK/data/boss/Patchy-Mocks-DR12%s-COMPSAM_V6C_ZBIN%d" % (NGC_SGC, zbin)) for i in range(len(AA))]
+                            AA = [AA[i].replace("data_dir = /mwork2/sugiymnn/WORK/data/boss/galaxy_DR12v5_CMASSLOWZTOT",\
+                                                "data_dir = /mwork2/sugiymnn/WORK/data/boss/Patchy-Mocks-DR12%s-COMPSAM_V6C_ZBIN%d" % (NGC_SGC, zbin)) for i in range(len(AA))]
                 
                             AA = [AA[i].replace("galaxy_DR12v5_CMASSLOWZTOT_North_ZBIN1.dat",\
                                                 "Patchy-Mocks-DR12%s-COMPSAM_V6C_ZBIN%d_%04d.dat" % (NGC_SGC, zbin, realization)) for i in range(len(AA))]
