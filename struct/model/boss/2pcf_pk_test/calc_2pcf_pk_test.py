@@ -125,7 +125,6 @@ P = powerspec.ClassPowerSpectrum()
 P.set_input_pk(k_in, pk_in)
 P.set_input_pk_nw(k_in, pk_nw_in)
 # Set "sigma8" used to nomalize the input linear power spectrum.
-# If simga8 at the present, sigma8_0, is given, set Dz * sigma8_0.
 P.set_normalization(sigma8z_norm)
 # Set input parameters 
 P.set_params(params)

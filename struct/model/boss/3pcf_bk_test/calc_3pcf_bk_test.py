@@ -48,11 +48,11 @@ rbin = np.linspace(30.0, 150.0, 13)
 # k-bin #
 kbin = np.linspace(0.02, 0.2, 10)
 
-###########################################################################################################
+##################################################################################################################################
 # BOSS fiducial parameters #
 # The values of the fiducial parameters should be exactly the same as those used to calculate the distance to the BOSS galaxies.
 # (see $WORK/data/boss/fits2dat_galaxy.py)
-###########################################################################################################
+##################################################################################################################################
 params_cosmo = {
     'h': 0.676,
     'omega_b': 0.022,
@@ -149,7 +149,6 @@ B = bispec.ClassBiSpectrum()
 B.set_input_pk(k_in, pk_in)
 B.set_input_pk_nw(k_in, pk_nw_in)
 # Set "sigma8" used to nomalize the input linear power spectrum.
-# If simga8 at the present, sigma8_0, is given, set Dz * sigma8_0.
 B.set_normalization(sigma8z_norm)
 # Set input parameters 
 B.set_params(params)

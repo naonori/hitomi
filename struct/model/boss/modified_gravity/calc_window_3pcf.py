@@ -102,8 +102,6 @@ for data in ["galaxy", "mock"]:
                     fname = "model_%s_zbin%d/zeta%d%d%d_Tree_BAO_Template_%s.dat" % (data, zbin, ell1, ell2, ELL, param_name)
                     zeta.update({"zeta%d%d%d_%s" % (ell1, ell2, ELL, param_name) : np.loadtxt(fname, usecols=(2,), unpack=True)})
             
-            
-            
             # window function corrections 
             for param_name in PARAM_NAME_3pcf:
                 for (ell1, ell2, ELL) in [(0,0,0), (1,1,0), (2,0,2), (1,1,2)]:

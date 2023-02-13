@@ -12,6 +12,7 @@
 # (5) xi0+xi2+zeta000+zeta202+zeta110;
 # (6) xi0+xi2+zeta000+zeta202+zeta112;
 # (7) xi0+xi2+zeta000+zeta202+zeta110+zeta112.
+# (8) xi0+xi2+zeta110+zeta112.
 #
 # In addition, we test the following four cases:
 #
@@ -54,6 +55,7 @@ for NS in ["North", "South"]:
             MODEL_case5 = {}
             MODEL_case6 = {}
             MODEL_case7 = {}
+            MODEL_case8 = {}
             
             MODEL_test1 = {}
             MODEL_test2 = {}
@@ -98,6 +100,7 @@ for NS in ["North", "South"]:
                     MODEL_case5.update({"xi0xi2_%s_%s" % (param_name, data): xi_M})
                     MODEL_case6.update({"xi0xi2_%s_%s" % (param_name, data): xi_M})
                     MODEL_case7.update({"xi0xi2_%s_%s" % (param_name, data): xi_M})
+                    MODEL_case8.update({"xi0xi2_%s_%s" % (param_name, data): xi_M})
                                                                    
                     MODEL_test1.update({"xi0xi2_%s_%s" % (param_name, data): xi_M})
                     MODEL_test2.update({"xi0xi2_%s_%s" % (param_name, data): xi_M})
@@ -160,6 +163,9 @@ for NS in ["North", "South"]:
                 
                     zeta_M = np.hstack((zeta000, zeta202, zeta110, zeta112))
                     MODEL_case7.update({"zeta000zeta202zeta110zeta112_%s_%s" % (param_name, data): zeta_M})
+ 
+                    zeta_M = np.hstack((zeta110, zeta112))
+                    MODEL_case8.update({"zeta110zeta112_%s_%s" % (param_name, data): zeta_M})
                 
                     ######
                     MODEL_test1.update({"zeta000_%s_%s" % (param_name, data): zeta000})
@@ -191,6 +197,9 @@ for NS in ["North", "South"]:
                 
                 with open("%s/MODEL_%s_zbin%d_case7.p" % (OUTPUT, NS, zbin), "wb") as pp:
                     pickle.dump(MODEL_case7, pp)               
+
+                with open("%s/MODEL_%s_zbin%d_case8.p" % (OUTPUT, NS, zbin), "wb") as pp:
+                    pickle.dump(MODEL_case8, pp)               
                                                                
                 with open("%s/MODEL_%s_zbin%d_test1.p" % (OUTPUT, NS, zbin), "wb") as pp:
                     pickle.dump(MODEL_test1, pp)               
@@ -226,6 +235,9 @@ for NS in ["North", "South"]:
                 
                 with open("%s/MODEL_%s_zbin%d_recon_case7.p" % (OUTPUT, NS, zbin), "wb") as pp:
                     pickle.dump(MODEL_case7, pp)               
+
+                with open("%s/MODEL_%s_zbin%d_recon_case8.p" % (OUTPUT, NS, zbin), "wb") as pp:
+                    pickle.dump(MODEL_case8, pp)               
                                                                
                 with open("%s/MODEL_%s_zbin%d_recon_test1.p" % (OUTPUT, NS, zbin), "wb") as pp:
                     pickle.dump(MODEL_test1, pp)               

@@ -357,7 +357,7 @@ ax.append(fig.add_axes(rect1))
 ###         
 ###         bk = f_bk["%s" % name](k1, kbin)[:,0]
 ###         ax[0].plot(kbin, kbin*bk, ":", label="bk%d%d%d: %s" % (ell1, ell2, ELL, label[i_name+19]))
-###  
+### 
 ###     ax[0].set_xlim(0.01, 0.21)
 ###     ax[0].set_xticks(np.linspace(0.02, 0.2, 10))
 ###     ax[0].set_xlabel("k2 [h/Mpc]")

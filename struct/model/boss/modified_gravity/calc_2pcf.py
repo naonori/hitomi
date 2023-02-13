@@ -17,7 +17,7 @@ import fiducial
 import initial
 import powerspec
 
-data = "galaxy" # "galaxy" or "mock"
+data = "mock" # "galaxy" or "mock"
 
 ############
 # Redshift #
@@ -26,7 +26,7 @@ data = "galaxy" # "galaxy" or "mock"
 # 0.2 < z < 0.5, 0.4 < z < 0.6, and 0.5 < z < 0.75.
 # (see $WORK/data/boss/fits2dat_galaxy.py)
 ##############################################
-zbin = 1 # 1,3
+zbin = 3 # 1,3
 if zbin == 1:
     redshift = 0.38 
 elif zbin == 3:
