@@ -1,0 +1,25 @@
+# -------------------------------------------
+
+# Specify the location of the measurement result file in the user's environment.
+# See '/mwork0/sugiymnn/WORK/covariance/boss/modified_gravity/save_data_and_cov_for_analysis.py'
+galaxy_GR_South_zbin1_case7.data_dir  = "/mwork0/sugiymnn/WORK/covariance/boss/modified_gravity/data_and_cov_for_analysis"
+galaxy_GR_South_zbin1_case7.data_file = "DATA_South_zbin1_case7.p"
+
+# Specify the location of the model result file in the user's environment.
+# See '/mwork0/sugiymnn/WORK/model/boss/modified_gravity/save_model_for_analysis.py'
+galaxy_GR_South_zbin1_case7.model_dir  = "/mwork0/sugiymnn/WORK/model/boss/modified_gravity/model_for_analysis"
+galaxy_GR_South_zbin1_case7.model_file = "MODEL_South_zbin1_case7.p"
+
+# Specify the statistics and the type of galaxy data to be used.
+galaxy_GR_South_zbin1_case7.use_xi  = "xi0xi2"
+galaxy_GR_South_zbin1_case7.use_zeta  = "zeta000zeta202zeta110zeta112"
+galaxy_GR_South_zbin1_case7.data_type  = "galaxy"
+galaxy_GR_South_zbin1_case7.model_type  = "galaxy"
+# Input the value of Omega_m at zbin1 (z=0.38) in LCDM
+galaxy_GR_South_zbin1_case7.Omega_m  = 0.543
+# Number of simulations
+galaxy_GR_South_zbin1_case7.nsim  = 2048.0
+
+# varying parameters
+galaxy_GR_South_zbin1_case7.use_nuisance = ["b1sigma8_South_zbin1", "fsigma8_zbin1", "FGsigma8_South_zbin1", "FSsigma8_zbin1", "FTsigma8_South_zbin1"]
+
