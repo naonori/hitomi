@@ -131,6 +131,14 @@ class ClassPowerSpectrum():
                 self.sigma2_perp, self.sigma2_para,
                 self.param_name)
 
+        elif name == "Tree_Reconstructed_Correction":
+            return hitomipy.integrand_P_Tree_Reconstructed_Correction_py(
+                self.xx_in, self.ndim, self.ff_out, self.ncomp,
+                self.kbin, n_kbin, self.ELL,
+                self.alpha_perp, self.alpha_parallel, self.sigma8, self.fz, self.b1,
+                self.sigma2_perp_recon_correction, self.sigma2_para_recon_correction,
+                self.one_over_b1_fid, self.R)
+
         else:
             print("select_P: ERROR")
 
@@ -142,6 +150,7 @@ class ClassPowerSpectrum():
         name_dim2.append("Tree")
         name_dim2.append("Tree_NoWiggle")
         name_dim2.append("Tree_BAO")
+        name_dim2.append("Tree_Reconstructed_Correction")
         name_dim2.append("Tree_BAO_Template")
 
         if name in name_dim2:
@@ -153,6 +162,7 @@ class ClassPowerSpectrum():
         name_BAO = []
         name_BAO.append("Tree_BAO")
         name_BAO.append("Tree_BAO_Template")
+        name_BAO.append("Tree_Reconstructed_Correction")
 
         name_no_BAO = []
         name_no_BAO.append("Tree")
@@ -186,6 +196,7 @@ class ClassPowerSpectrum():
         name_recon = []
         name_recon.append("Tree_BAO")
         name_recon.append("Tree_BAO_Template")
+        name_recon.append("Tree_Reconstructed_Correction")
  
         name_no_recon = []
         name_no_recon.append("Tree")
@@ -219,6 +230,7 @@ class ClassPowerSpectrum():
         name_damping = []
         name_damping.append("Tree_BAO")
         name_damping.append("Tree_BAO_Template")
+        name_damping.append("Tree_Reconstructed_Correction")
 
         name_no_damping = []
         name_no_damping.append("Tree")
@@ -360,6 +372,9 @@ class ClassPowerSpectrum():
                         2, 
                         ncomp=1, 
                         key=0, verbose=0 | 4)["results"][0]['integral']
+
+                self.sigma2_perp_recon_correction = hitomipy.calcSigma_dd_py(self.sigma8_fid)
+                self.sigma2_para_recon_correction = (1.0 + self.fz_fid) * (1.0 + self.fz_fid) * self.sigma2_perp
 
         elif flag_BAO == False:
             self.sigma2_perp = sigma2_perp

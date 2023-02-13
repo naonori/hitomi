@@ -4,7 +4,7 @@
 # Specify the directory where you want to work and the home directory where your ".bashrc" file for "export PATH" is located.
 # You can put this "hitomi" directory anywhere you want.
 #######
-WORK=/mwork0/sugiymnn/WORK
+WORK=/mwork2/sugiymnn/WORK
 HOME=/home/sugiymnn
 
 #######

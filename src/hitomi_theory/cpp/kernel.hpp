@@ -1316,38 +1316,37 @@ double Z1S1(
     return result;
 }
 
-double Z1S1_b1_b1(double * kvec1, double * kvec2, double one_over_b1_fid, double R) {
-	double k1 = NORM(kvec1);
-	double k2 = NORM(kvec2);
-    	double W1 = exp( - pow(k1 * R, 2) / 2.0);
-	double W2 = exp( - pow(k2 * R, 2) / 2.0);
-	double kvec12[3] = PLUS(kvec1, kvec2);
-	double result = (-1.0/2.0) * (one_over_b1_fid) * ( LV1(kvec1, kvec12) * W1 + LV1(kvec2, kvec12) * W2 ) * D1() * D1();
-	return result;
-}
-
-double Z1S1_b1_f(double * kvec1, double * kvec2, double * los, double one_over_b1_fid, double R) {
-	double k1 = NORM(kvec1);
-	double k2 = NORM(kvec2);
-    	double W1 = exp( - pow(k1 * R, 2) / 2.0);
-	double W2 = exp( - pow(k2 * R, 2) / 2.0);
-	double kvec12[3] = PLUS(kvec1, kvec2);
-	double result = (-1.0/2.0) * (one_over_b1_fid) * ( LV1(kvec1, kvec12) * W1 + LV1(kvec2, kvec12) * W2 ) 
-	              * ( D1() * V1(kvec1, los) + V1(kvec2, los) * D1() );
-	return result;
-}
-
-double Z1S1_f_f(double * kvec1, double * kvec2, double * los, double one_over_b1_fid, double R) {
+double Z1S1_b1_b1_one_over_b1_fid(double * kvec1, double * kvec2, double R) {
 	double k1 = NORM(kvec1);
 	double k2 = NORM(kvec2);
     double W1 = exp( - pow(k1 * R, 2) / 2.0);
 	double W2 = exp( - pow(k2 * R, 2) / 2.0);
 	double kvec12[3] = PLUS(kvec1, kvec2);
-	double result = (-1.0/2.0) * (one_over_b1_fid) * ( LV1(kvec1, kvec12) * W1 + LV1(kvec2, kvec12) * W2 ) 
-	              * V1(kvec1, los) * V1(kvec2, los);
+	double result = (-1.0/2.0) * ( LV1(kvec1, kvec12) * W1 + LV1(kvec2, kvec12) * W2 ) * D1() * D1();
 	return result;
 }
 
+double Z1S1_b1_f_one_over_b1_fid(double * kvec1, double * kvec2, double * los, double R) {
+	double k1 = NORM(kvec1);
+	double k2 = NORM(kvec2);
+    double W1 = exp( - pow(k1 * R, 2) / 2.0);
+	double W2 = exp( - pow(k2 * R, 2) / 2.0);
+	double kvec12[3] = PLUS(kvec1, kvec2);
+	double result = (-1.0/2.0) * ( LV1(kvec1, kvec12) * W1 + LV1(kvec2, kvec12) * W2 ) 
+	              * ( D1() * V1(kvec1, los) + V1(kvec2, los) * D1() );
+	return result;
+}
+
+double Z1S1_f_f_one_over_b1_fid(double * kvec1, double * kvec2, double * los, double R) {
+	double k1 = NORM(kvec1);
+	double k2 = NORM(kvec2);
+    double W1 = exp( - pow(k1 * R, 2) / 2.0);
+	double W2 = exp( - pow(k2 * R, 2) / 2.0);
+	double kvec12[3] = PLUS(kvec1, kvec2);
+	double result = (-1.0/2.0) * ( LV1(kvec1, kvec12) * W1 + LV1(kvec2, kvec12) * W2 ) 
+	              * V1(kvec1, los) * V1(kvec2, los);
+	return result;
+}
 
 double Z2_Bias_Reconstructed(
         double * kvec1, double * kvec2, double * los, 

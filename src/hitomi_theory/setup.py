@@ -9,7 +9,7 @@ import os.path as osp
 import os
 
 # Edit to your "WORK" directory
-WORK = "/mwork0/sugiymnn/WORK"
+WORK = "/mwork2/sugiymnn/WORK"
 
 COSMO = WORK + "/cosmo"
 
