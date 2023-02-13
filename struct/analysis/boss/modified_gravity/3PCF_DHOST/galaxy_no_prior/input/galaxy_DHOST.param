@@ -1,0 +1,30 @@
+#------Experiments to test (separated with commas)-----
+data.experiments=["galaxy_DHOST_North_zbin1_case7_TOTAL", "galaxy_DHOST_South_zbin1_case7_TOTAL", "galaxy_DHOST_North_zbin3_case7_TOTAL", "galaxy_DHOST_South_zbin3_case7_TOTAL"]
+
+data.parameters["b1sigma8_North_zbin1"] = [1.36, 0.60, 2.13, 0.15, 1.0, "nuisance"]
+data.parameters["b1sigma8_South_zbin1"] = [1.36, 0.08, 2.64, 0.26, 1.0, "nuisance"]
+data.parameters["b1sigma8_North_zbin3"] = [1.21, 0.54, 1.88, 0.13, 1.0, "nuisance"]
+data.parameters["b1sigma8_South_zbin3"] = [1.21, 0.07, 2.36, 0.23, 1.0, "nuisance"]
+
+data.parameters["FGsigma8_North_zbin1"] = [0.55, None, None, 0.49, 1.0, "nuisance"]
+data.parameters["FGsigma8_South_zbin1"] = [0.55, None, None, 0.80, 1.0, "nuisance"]
+data.parameters["FGsigma8_North_zbin3"] = [0.49, None, None, 0.59, 1.0, "nuisance"]
+data.parameters["FGsigma8_South_zbin3"] = [0.49, None, None, 1.01, 1.0, "nuisance"]
+
+data.parameters["FSsigma8_zbin1"] = [0.68, None, None, 0.47, 1.0, "nuisance"]
+data.parameters["FSsigma8_zbin3"] = [0.61, None, None, 0.53, 1.0, "nuisance"]
+
+data.parameters["FTsigma8_North_zbin1"] = [0.19, None, None, 0.29, 1.0, "nuisance"]
+data.parameters["FTsigma8_South_zbin1"] = [0.19, None, None, 0.51, 1.0, "nuisance"]
+data.parameters["FTsigma8_North_zbin3"] = [0.17, None, None, 0.36, 1.0, "nuisance"]
+data.parameters["FTsigma8_South_zbin3"] = [0.17, None, None, 0.62, 1.0, "nuisance"]
+
+data.parameters["XF"] = [0.55, None, None, 1.13, 1.0, "nuisance"]
+
+data.parameters["XS"] = [0.00, None, None, 3.70, 1.0, "nuisance"]
+
+data.parameters["XT"] = [0.01, None, None, 4.17, 1.0, "nuisance"]
+
+data.N=100
+data.write_step=20
+
