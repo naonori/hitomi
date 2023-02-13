@@ -1,0 +1,25 @@
+# -------------------------------------------
+
+# Specify the location of the measurement result file in the user's environment.
+# See '/mwork2/sugiymnn/WORK/covariance/boss/modified_gravity/save_data_and_cov_for_analysis.py'
+galaxy_Horndeski_North_zbin1_case3_TOTAL.data_dir  = "/mwork2/sugiymnn/WORK/covariance/boss/modified_gravity/data_and_cov_for_analysis"
+galaxy_Horndeski_North_zbin1_case3_TOTAL.data_file = "DATA_North_zbin1_case3.p"
+
+# Specify the location of the model result file in the user's environment.
+# See '/mwork2/sugiymnn/WORK/model/boss/modified_gravity/save_model_for_analysis.py'
+galaxy_Horndeski_North_zbin1_case3_TOTAL.model_dir  = "/mwork2/sugiymnn/WORK/model/boss/modified_gravity/model_for_analysis"
+galaxy_Horndeski_North_zbin1_case3_TOTAL.model_file = "MODEL_North_zbin1_case3.p"
+
+# Specify the statistics and the type of galaxy data to be used.
+galaxy_Horndeski_North_zbin1_case3_TOTAL.use_xi  = "xi0xi2"
+galaxy_Horndeski_North_zbin1_case3_TOTAL.use_zeta  = "zeta202zeta112"
+galaxy_Horndeski_North_zbin1_case3_TOTAL.data_type  = "galaxy"
+galaxy_Horndeski_North_zbin1_case3_TOTAL.model_type  = "galaxy"
+# Input the value of Omega_m at zbin1 (z=0.38) in LCDM
+galaxy_Horndeski_North_zbin1_case3_TOTAL.Omega_m  = 0.543
+# Number of simulations
+galaxy_Horndeski_North_zbin1_case3_TOTAL.nsim  = 2048.0
+
+# varying parameters
+galaxy_Horndeski_North_zbin1_case3_TOTAL.use_nuisance = ["b1sigma8_North_zbin1", "b1sigma8_South_zbin1", "b1sigma8_North_zbin3", "b1sigma8_South_zbin3", "FGsigma8_North_zbin1", "FGsigma8_South_zbin1", "FGsigma8_North_zbin3", "FGsigma8_South_zbin3", "FSsigma8_zbin1", "FSsigma8_zbin3", "FTsigma8_North_zbin1", "FTsigma8_South_zbin1", "FTsigma8_North_zbin3", "FTsigma8_South_zbin3", "XF", "XT"]
+
