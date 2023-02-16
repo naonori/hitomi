@@ -2,7 +2,8 @@
 
 ### Modified Gravity
 
-Using the 2PCF and the 3PCF measured from the BOSS DR12 galaxy data, we test the scalar-tensor theories (Horndeski and DHOST theories), a type of modified gravity theories. We also discuss the observational systematics that appear in the 3PCF before actually performing the cosmological analysis.
+Using the 2PCF and 3PCF measured from the BOSS DR12 galaxy data, we test the scalar tensor theories (Horndeski and DHOST theories), a type of modified gravity theory.
+The following procedure allows the reader to reproduce the results presented by [Sugiyama et. al. 2023](https://arxiv.org/abs/2302.06808)
 
 0. Install ([implemented](https://youtu.be/vlP7XIXZsUM))
 

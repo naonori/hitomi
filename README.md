@@ -26,7 +26,7 @@ This set of codes is a collection of programs that were used to write the follow
 3. [Naonori Sugiyama, Shun Saito, Florian Beutler, and Hee-Jong Seo, 2020, MNRAS, 497, 1684](https://academic.oup.com/mnras/article/497/2/1684/5867793)
 4. [Masato Shirasaki, Naonori Sugiyama, Ryuichi Takahashi, and Francisco-Shu Kitaura, 2021, Phys. Rev. D 103, 023506](https://journals.aps.org/prd/abstract/10.1103/PhysRevD.103.023506)
 5. [Naonori Sugiyama, Shun Saito, Florian Beutler, and Hee-Jong Seo, 2021, MNRAS, 501, 2862](https://academic.oup.com/mnras/article/501/2/2862/6019894)
-6. Naonori Sugiyama and others, 2022 in preparation.
+6. [Naonori Sugiyama, Daisuke Yamauchi, Tsutomu Kobayashi, Tomohiro Fujita, Shun Arai, Shin'ichi Hirano, Shun Saito, Florian Beutler, and Hee-Jong Seo, 2023, arXiv:2302.06808](https://arxiv.org/abs/2302.06808)
 
 ### Note
 
@@ -336,6 +336,18 @@ The license of the source code is MIT; see LICENSE.txt. As an additional clause,
 
 When using `Hitomi` in a publication, please acknowledge the code by citing the following papers. Users should also properly cite the various libraries required by `Hitomi`, such as `Class`, `montepython`, `FFTLog`, etc.
 
+Please cite the following paper whenever `Hitomi` is used.
+
+    @article{Sugiyama:2023tes,
+        author = "Sugiyama, Naonori S. and Yamauchi, Daisuke and Kobayashi, Tsutomu and Fujita, Tomohiro and Arai, Shun and Hirano, Shin'ichi and Saito, Shun and Beutler, Florian and Seo, Hee-Jong",
+        title = "{New constraints on cosmological modified gravity theories from anisotropic three-point correlation functions of BOSS DR12 galaxies}",
+        eprint = "2302.06808",
+        archivePrefix = "arXiv",
+        primaryClass = "astro-ph.CO",
+        month = "2",
+        year = "2023"
+    }
+
 Please cite the following paper when measuring the power spectrum or 2PCF multipoles.
 
     @article{Sugiyama:2017ggb,
@@ -352,7 +364,7 @@ Please cite the following paper when measuring the power spectrum or 2PCF multip
         year = "2018"
     }
 
-Please cite the following paper when measuring the bispectrum or 3PCF multipoles.
+Please cite the following papers when measuring the bispectrum or 3PCF multipoles.
 
     @article{Sugiyama:2018yzo,
         author = "Sugiyama, Naonori S. and Saito, Shun and Beutler, Florian and Seo, Hee-Jong",
@@ -366,6 +378,20 @@ Please cite the following paper when measuring the bispectrum or 3PCF multipoles
         number = "1",
         pages = "364--384",
         year = "2019"
+    }
+
+    @article{Sugiyama:2020uil,
+        author = "Sugiyama, Naonori S. and Saito, Shun and Beutler, Florian and Seo, Hee-Jong",
+        title = "{Towards a self-consistent analysis of the anisotropic galaxy two- and three-point correlation functions on large scales: application to mock galaxy catalogues}",
+        eprint = "2010.06179",
+        archivePrefix = "arXiv",
+        primaryClass = "astro-ph.CO",
+        doi = "10.1093/mnras/staa3725",
+        journal = "Mon. Not. Roy. Astron. Soc.",
+        volume = "501",
+        number = "2",
+        pages = "2862--2896",
+        year = "2021"
     }
 
 Please cite the following paper when calculating the analytical models of the bispectrum covariance matrix.
