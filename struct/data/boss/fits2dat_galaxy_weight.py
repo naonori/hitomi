@@ -10,6 +10,16 @@
 #
 # As input parameters specific to this code, we need to set the "NS" parameter to select the NGC and SGC galaxy samples,  and the "zbin" parameter to determine the redshift bins. 
 #
+# In addition, to study the effect of observational systematics described by weight functions, we calculate the weights of the galaxy sample in four cases: 
+# 0) when all weights are considered;
+# 1) when only systematic weights are considered;
+# 2) when there are no systematic weights and only fiber collision and redshift failure are taken into account;
+# 3) when not all observational weights are considered.
+# 4) when the observational weights are considered but the FKP weights are ignored.
+#
+# The FKP weights are included in all cases (1)-(3)
+# The parameter that controls these observational weights is "Weight".
+#
 ######################################################
 
 #!/usr/bin/env python
@@ -21,12 +31,12 @@ from astropy.io import fits
 
 from classy import Class
 
-# Choose NGC or SGC.
+## Choose NGC or SGC.
 #NS = "North" # "North" or "South"
 ## Determine the three redshift bins #
 #zbin = 1 # 1, 2, or 3
 ## Choose weights #
-#Weight = 0
+#Weight = 0 # 0, 1, 2, or 3
 
 args = sys.argv
 NS = str(args[1])
@@ -35,6 +45,7 @@ Weight = int(args[3])
 
 print("NS = ", NS)
 print("zbin = ", zbin)
+print("Weight = ", Weight)
 
 if zbin == 1:
     (zmin, zmax) = (0.2, 0.5)
@@ -85,7 +96,22 @@ DEC = data["DEC"]
 Z = data["Z"]
 weight_tot = data["WEIGHT_SYSTOT"] * ( data["WEIGHT_CP"] + data["WEIGHT_NOZ"] - 1.0 )
 weight_fkp = data["WEIGHT_FKP"]
-W = weight_tot * weight_fkp
+
+if Weight == 0:
+    W = weight_tot * weight_fkp
+elif Weight == 1:
+    W = data["WEIGHT_SYSTOT"] * weight_fkp
+elif Weight == 2:
+    W = ( data["WEIGHT_CP"] + data["WEIGHT_NOZ"] - 1.0 ) * weight_fkp
+elif Weight == 3:
+    W = weight_fkp
+elif Weight == 4:
+    W = weight_tot
+elif Weight == 5:
+    W = data["WEIGHT_SYSTOT"]
+else:
+    print("ERROR")
+    sys.exit()
 
 # split into three redshift bins #
 Z_bin   = (Z[Z>zmin])[Z[Z>zmin]<zmax]
@@ -106,15 +132,51 @@ Y_dis = CHI_bin * np.cos(DEC_bin) * np.sin(RA_bin)
 Z_dis = CHI_bin * np.sin(DEC_bin)
 
 SAVE = np.array([X_dis, Y_dis, Z_dis, W_bin]).T
+SAVE_Z = np.array([Z_bin, W_bin]).T
 
 # save data #
-output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d.dat" % (NS,zbin)
+if Weight == 0:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d.dat" % (NS,zbin)
+elif Weight == 1:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d_Weight1_OnlySys.dat" % (NS,zbin)
+elif Weight == 2:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d_Weight2_NoSys.dat" % (NS,zbin)
+elif Weight == 3:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d_Weight3_NoWeight.dat" % (NS,zbin)
+elif Weight == 4:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d_Weight4_NoFKP.dat" % (NS,zbin)
+elif Weight == 5:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d_Weight5_OnlySys_NoFKP.dat" % (NS,zbin)
 
-output_dir = "galaxy_DR12v5_CMASSLOWZTOT"
+
+output_dir = "galaxy_DR12v5_CMASSLOWZTOT_Weight"
 try:
     os.mkdir(output_dir)
 except:
     print(output_dir, " already exists ")
  
 np.savetxt("%s/%s" % (output_dir, output_fname), SAVE, fmt="%.10e")
+
+# save data #
+if Weight == 0:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d_Z.dat" % (NS,zbin)
+elif Weight == 1:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d_Weight1_OnlySys_Z.dat" % (NS,zbin)
+elif Weight == 2:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d_Weight2_NoSys_Z.dat" % (NS,zbin)
+elif Weight == 3:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d_Weight3_NoWeight_Z.dat" % (NS,zbin)
+elif Weight == 4:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d_Weight4_NoFKP_Z.dat" % (NS,zbin)
+elif Weight == 5:
+    output_fname = "galaxy_DR12v5_CMASSLOWZTOT_%s_ZBIN%d_Weight5_OnlySys_NoFKP_Z.dat" % (NS,zbin)
+
+
+output_dir = "galaxy_DR12v5_CMASSLOWZTOT_Weight_Z"
+try:
+    os.mkdir(output_dir)
+except:
+    print(output_dir, " already exists ")
+ 
+np.savetxt("%s/%s" % (output_dir, output_fname), SAVE_Z, fmt="%.10e")
 
