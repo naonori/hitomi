@@ -4,7 +4,7 @@
 # Specify the directory where you want to work and the home directory where your ".bashrc" file for "export PATH" is located.
 # You can put this "hitomi" directory anywhere you want.
 #######
-WORK=/mwork2/sugiymnn/WORK
+WORK=/mwork1/sugiymnn/WORK
 HOME=/home/sugiymnn
 
 #######
@@ -26,17 +26,18 @@ mkdir -p $TEMP
 # Specifies the name of the file or directory to be used. 
 # When you update the version of these libraries, modify here.
 #######
-name_Anaconda3=Anaconda3-2021.05-Linux-x86_64
-name_fftw3=fftw-3.3.9
-name_gsl=gsl-2.7
-name_cuba=Cuba-4.2.1
-name_cmake=cmake-3.21.1
-name_lapack=lapack-3.10.0
+name_Anaconda3=Anaconda3-2023.03-1-Linux-x86_64
+name_fftw3=fftw-3.3.10
+name_gsl=gsl-2.7.1
+name_cuba=Cuba-4.2.2
+name_cmake=cmake-3.26.4
+name_lapack=lapack-3.11
 name_multinest=MultiNest-master
-name_pymultinest=PyMultiNest-2.10
-name_astropy=astropy-4.3
-name_class=class_public-3.0.1
-name_montepython=montepython_public-3.4
+name_pymultinest=PyMultiNest-master
+name_astropy=astropy-6.0.dev
+name_cython=Cython-0.29.34
+name_class=class_public-3.2.0
+name_montepython=montepython_public-3.5
 name_fftlog=FFTLog-master
 
 #######
@@ -193,6 +194,19 @@ name_fftlog=FFTLog-master
 #rm -rf $TEMP/$name_astropy*
 
 #######
+# Install Cython.
+#######
+#cp -rf $ENV/$name_cython\.tar.gz $TEMP/$name_cython\.tar.gz
+#cd $TEMP
+#tar -zxvf $name_cython\.tar.gz
+#cp -rf $name_cython $COSMO/
+#cd $COSMO
+#mv $name_cython cython
+#cd cython 
+#python setup.py install
+#rm -rf $TEMP/$name_cython*
+
+#######
 # Install class
 #######
 #cp -rf $ENV/$name_class\.zip $TEMP/$name_class\.zip
@@ -285,11 +299,11 @@ name_fftlog=FFTLog-master
 # Install "hitomi_theory".
 # Copy the "pyfftlog.hpp" file generated from the fftlog source file into "hitomi_theory/cpp".
 #######
-#cp -rf $SRC/hitomi_theory $COSMO/hitomi_theory
-#cd $COSMO/hitomi_theory
-#cp -rf $COSMO/fftlog/pyfftlog.hpp $COSMO/hitomi_theory/cpp/
-#make
-#echo "export PYTHONPATH="$COSMO/hitomi_theory:\$PYTHONPATH"" >> $HOME/.bashrc
+cp -rf $SRC/hitomi_theory $COSMO/hitomi_theory
+cd $COSMO/hitomi_theory
+cp -rf $COSMO/fftlog/pyfftlog.hpp $COSMO/hitomi_theory/cpp/
+make
+echo "export PYTHONPATH="$COSMO/hitomi_theory:\$PYTHONPATH"" >> $HOME/.bashrc
 
 rm -rf $TEMP
 
