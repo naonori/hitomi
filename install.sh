@@ -4,7 +4,7 @@
 # Specify the directory where you want to work and the home directory where your ".bashrc" file for "export PATH" is located.
 # You can put this "hitomi" directory anywhere you want.
 #######
-WORK=/mwork1/sugiymnn/WORK
+WORK=/mwork2/sugiymnn/WORK
 HOME=/home/sugiymnn
 
 #######
@@ -85,7 +85,7 @@ name_fftlog=FFTLog-master
 # In order to install "pycuba" later, the "libcuba.so" file is required. 
 # However, only "libcuba.a" is generated in the original Cuba library, so you have to create "libcuba.so" from "libcuba.a".
 # To do so, add the "-fPIC" option to "CFLAGS" in "makefile", and install Cuba. 
-# Then, use "ar" command to break "libcuba.a" into *.o files, and use "ld" command to bundle those *.o files into "libcuba.so".
+# Then, use "ar" command to break "libcuba.a" into *.o files, and bundle those *.o files into "libcuba.so".
 # Finally, include the "cuba/lib" containing "libcuba.so" directory in your LD_LIBRARY_PATH.
 #######
 #cp -rf $ENV/$name_cuba\.tar.gz $TEMP/$name_cuba\.tar.gz
@@ -95,11 +95,12 @@ name_fftlog=FFTLog-master
 #CUBA=$COSMO/cuba
 #./configure --prefix=$CUBA
 #sed 's/CFLAGS = -O3 -fomit-frame-pointer/CFLAGS = -O3 -fPIC -fomit-frame-pointer/g' --in-place makefile
+#sed 's/FCFLAGS = -g -O2 -DREALSIZE=8/FCFLAGS = -g -fPIC -O2 -DREALSIZE=8/g' --in-place makefile
 #make
 #make install
 #cd $CUBA/lib
 #ar xv libcuba.a
-#ld -shared *.o -o libcuba.so
+#gcc -shared -Wall *.o -lm -o libcuba.so
 #rm -rf *.o
 #echo "export LD_LIBRARY_PATH="$CUBA/lib:\$LD_LIBRARY_PATH"" >> $HOME/.bashrc
 #rm -rf $TEMP/$name_cuba*
@@ -156,7 +157,7 @@ name_fftlog=FFTLog-master
 #mkdir build
 #cd build
 #MULTINEST=$COSMO/multinest
-#cmake -DCMAKE_INSTALL_PREFIX=$MULTINEST ..
+#cmake -DCMAKE_INSTALL_PREFIX=$MULTINEST .. 
 #make
 #make install
 #echo "export LD_LIBRARY_PATH="$MULTINEST/lib:\$LD_LIBRARY_PATH"" >> $HOME/.bashrc
@@ -177,7 +178,7 @@ name_fftlog=FFTLog-master
 #mv $name_pymultinest pymultinest
 #cd pymultinest
 #sed 's/setup_requires/#setup_requires/g' --in-place setup.py
-#python setup.py install
+#python setup.py install --user
 #rm -rf $TEMP/$name_pymultinest*
 
 #######
@@ -190,7 +191,7 @@ name_fftlog=FFTLog-master
 #cd $COSMO
 #mv $name_astropy astropy
 #cd astropy 
-#pip install astropy --no-deps
+#pip install --user astropy --no-deps
 #rm -rf $TEMP/$name_astropy*
 
 #######
@@ -203,7 +204,7 @@ name_fftlog=FFTLog-master
 #cd $COSMO
 #mv $name_cython cython
 #cd cython 
-#python setup.py install
+#python setup.py install --user
 #rm -rf $TEMP/$name_cython*
 
 #######
@@ -219,7 +220,7 @@ name_fftlog=FFTLog-master
 #make
 #cd python
 #python setup.py build
-#python setup.py install
+#python setup.py install --user
 #rm -rf $TEMP/$name_class*
 
 #######
@@ -299,11 +300,11 @@ name_fftlog=FFTLog-master
 # Install "hitomi_theory".
 # Copy the "pyfftlog.hpp" file generated from the fftlog source file into "hitomi_theory/cpp".
 #######
-cp -rf $SRC/hitomi_theory $COSMO/hitomi_theory
-cd $COSMO/hitomi_theory
-cp -rf $COSMO/fftlog/pyfftlog.hpp $COSMO/hitomi_theory/cpp/
-make
-echo "export PYTHONPATH="$COSMO/hitomi_theory:\$PYTHONPATH"" >> $HOME/.bashrc
+#cp -rf $SRC/hitomi_theory $COSMO/hitomi_theory
+#cd $COSMO/hitomi_theory
+#cp -rf $COSMO/fftlog/pyfftlog.hpp $COSMO/hitomi_theory/cpp/
+#make
+#echo "export PYTHONPATH="$COSMO/hitomi_theory:\$PYTHONPATH"" >> $HOME/.bashrc
 
 rm -rf $TEMP
 
